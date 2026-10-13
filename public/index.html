@@ -296,6 +296,14 @@
         </div>
       </div>
 
+      <div class="settler-cta">
+        <div class="eyebrow">Settler</div>
+        <h3>Get your Settler checklist</h3>
+        <p>A step-by-step relocation plan for the country you choose — from before you leave to the end of your first year.</p>
+        <div class="settler-choices" id="settler-choices" role="radiogroup" aria-label="Choose a country"></div>
+        <button type="button" class="btn btn-primary" id="btn-settler">Get Your Settler Checklist</button>
+      </div>
+
       <div class="cta-block">
         <h3>Ready to move on this?</h3>
         <p>Talk through your specific situation with a BordersX strategist before committing to anything.</p>
@@ -310,12 +318,45 @@
       </div>
     </section>
 
+    <!-- SETTLER CHECKLIST -->
+    <section class="report" id="screen-settler" data-screen hidden>
+      <button type="button" class="back-link" id="btn-settler-back">← Back to your results</button>
+
+      <header class="report-header">
+        <div class="eyebrow">Settler checklist</div>
+        <h1 class="report-title" id="settler-title"></h1>
+        <p class="settler-basis" id="settler-basis"></p>
+        <label class="settler-move-date">
+          <span>Planned arrival date</span>
+          <input type="date" class="text-input" id="settler-move-date" />
+          <small>Optional — turns every deadline into a real date.</small>
+        </label>
+      </header>
+
+      <div class="settler-progress" id="settler-progress" role="progressbar" aria-label="Checklist progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <div class="settler-progress-row">
+          <span id="settler-progress-label"></span>
+          <strong id="settler-progress-pct">0%</strong>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="settler-progress-fill"></div></div>
+      </div>
+
+      <div id="settler-phases"></div>
+
+      <p class="affiliate-note">Some links are partner links — BordersX may earn a commission at no extra cost to you.</p>
+      <div class="disclaimer">
+        This checklist is general guidance, not legal, tax, or immigration advice. Requirements, thresholds and deadlines change frequently and depend on your circumstances — confirm each step with the relevant authority or a qualified adviser.
+      </div>
+    </section>
+
   </main>
 
   <footer class="footer">
     <div>BordersX — AI-powered mobility strategy. Not legal or tax advice; a licensed advisor should confirm any plan before you act on it.</div>
   </footer>
 
+  <script src="/settler-data.js"></script>
+  <script src="/settler.js"></script>
   <script src="/app.js"></script>
 </body>
 </html>

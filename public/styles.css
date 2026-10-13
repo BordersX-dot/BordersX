@@ -263,7 +263,8 @@ h3 { margin: 0 0 8px; }
 
 /* The report sits directly on the page background rather than inside a panel,
    and carries its own disclaimer, so the global footer is hidden alongside it. */
-body:has(#screen-results:not([hidden])) .footer { display: none; }
+body:has(#screen-results:not([hidden])) .footer,
+body:has(#screen-settler:not([hidden])) .footer { display: none; }
 
 .report-header {
   padding-bottom: 24px;
@@ -587,6 +588,172 @@ body:has(#screen-results:not([hidden])) .footer { display: none; }
 }
 .cta-secondary:hover { color: rgba(255,255,255,0.85); text-decoration: underline; }
 
+/* ── SETTLER ── */
+.settler-cta {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-top: 4px solid var(--accent-teal);
+  border-radius: var(--radius);
+  padding: 28px 30px;
+  margin-bottom: 24px;
+}
+.settler-cta h3 { font-size: 1.3rem; font-weight: 700; margin: 0 0 6px; }
+.settler-cta p { color: var(--fg-mid); margin: 0 0 18px; }
+.settler-choices {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.settler-choice {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  cursor: pointer;
+  min-width: 0;
+  transition: border-color 0.12s ease, background 0.12s ease;
+}
+.settler-choice:hover { border-color: var(--accent-teal); }
+.settler-choice:has(input:checked) { border-color: var(--accent-teal); background: var(--accent-teal-soft); }
+.settler-choice:has(input:focus-visible) { outline: 2px solid var(--accent-teal); outline-offset: 2px; }
+.settler-choice input { position: absolute; opacity: 0; pointer-events: none; }
+.settler-choice strong { font-family: var(--font-head); font-size: 0.98rem; font-weight: 600; }
+.settler-choice span {
+  font-size: 0.78rem;
+  color: var(--fg-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.back-link {
+  background: none;
+  border: none;
+  padding: 0;
+  margin-bottom: 20px;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--accent-teal);
+  cursor: pointer;
+}
+.back-link:hover { text-decoration: underline; }
+
+.settler-basis { color: var(--fg-mid); margin: -4px 0 18px; overflow-wrap: anywhere; }
+.settler-move-date { display: flex; flex-direction: column; gap: 6px; max-width: 280px; }
+.settler-move-date span { font-size: 0.85rem; font-weight: 600; }
+.settler-move-date .text-input { margin-top: 0; padding: 10px 12px; }
+.settler-move-date small { color: var(--fg-muted); font-size: 0.78rem; }
+
+.settler-progress {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: var(--bg);
+  padding: 14px 0 16px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.settler-progress-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
+  font-size: 0.88rem;
+  color: var(--fg-mid);
+}
+.settler-progress-row strong { font-family: var(--font-head); font-size: 1.1rem; color: var(--fg); font-variant-numeric: tabular-nums; }
+.settler-progress .progress-track { margin-bottom: 0; height: 8px; }
+.settler-progress .progress-fill { width: 0; }
+
+.settler-phase { margin-top: 28px; }
+.settler-phase-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 12px;
+}
+.settler-phase-header h2 { font-size: 1.1rem; font-weight: 700; margin: 0; }
+.settler-phase-count {
+  font-family: var(--font-head);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--fg-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.settler-steps { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; }
+.settler-step {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  transition: opacity 0.15s ease, border-color 0.15s ease;
+}
+.settler-step.is-done { border-color: var(--accent-teal); }
+.settler-step.is-done h3 { color: var(--fg-muted); text-decoration: line-through; }
+.settler-step.is-done p { opacity: 0.7; }
+.settler-step-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px 16px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+.settler-step h3 { font-size: 1rem; font-weight: 600; line-height: 1.35; margin: 0; flex: 1 1 260px; overflow-wrap: anywhere; }
+.settler-due {
+  flex-shrink: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--accent-gold-ink);
+  background: var(--accent-gold-soft);
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-variant-numeric: tabular-nums;
+}
+.settler-due.is-overdue { color: var(--danger); background: color-mix(in srgb, var(--danger) 12%, transparent); }
+.settler-step.is-done .settler-due { color: var(--fg-muted); background: var(--card-sunken); }
+.settler-step p { margin: 0; color: var(--fg-mid); font-size: 0.92rem; line-height: 1.6; overflow-wrap: anywhere; }
+
+.settler-step-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  margin-top: 14px;
+}
+.settler-links { display: flex; flex-wrap: wrap; gap: 8px; }
+.settler-link {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--accent-teal);
+  text-decoration: none;
+  border: 1px solid color-mix(in srgb, var(--accent-teal) 40%, transparent);
+  border-radius: 999px;
+  padding: 4px 12px;
+}
+.settler-link:hover { background: var(--accent-teal-soft); }
+.settler-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--fg-mid);
+  cursor: pointer;
+}
+.settler-check input { accent-color: var(--accent-teal); width: 18px; height: 18px; margin: 0; }
+.settler-step.is-done .settler-check { color: var(--accent-teal); }
+
+.affiliate-note { margin: 28px 0 0; font-size: 0.8rem; color: var(--fg-muted); }
+
 /* Disclaimer */
 .disclaimer {
   margin-top: 32px;
@@ -618,4 +785,6 @@ body:has(#screen-results:not([hidden])) .footer { display: none; }
   .metric:last-child { border-bottom: none; }
   .plan-body { padding: 16px 18px; }
   .insight-box { padding: 18px; }
+  .settler-cta { padding: 22px 18px; }
+  .settler-step { padding: 16px; }
 }

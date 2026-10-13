@@ -134,6 +134,7 @@
     loading: document.getElementById("screen-loading"),
     error: document.getElementById("screen-error"),
     results: document.getElementById("screen-results"),
+    settler: document.getElementById("screen-settler"),
   };
 
   function showScreen(name) {
@@ -141,6 +142,9 @@
     screens[name].hidden = false;
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
+
+  // Lets settler.js switch screens without owning the screen list.
+  window.BordersX = { showScreen };
 
   const quizForm = document.getElementById("quiz-form");
   const questions = Array.from(document.querySelectorAll(".q"));
@@ -481,6 +485,13 @@
     document.getElementById("key-insight").textContent = result.keyInsight;
 
     fillList("weekly-actions", result.weeklyActions);
+
+    window.Settler.setup(result, {
+      eu: isEuNational(),
+      nationality: state.answers.nationality,
+      dependants: state.answers.dependants,
+      incomeType: state.answers.incomeType,
+    });
   }
 
   function fillList(id, items) {
