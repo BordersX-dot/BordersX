@@ -1,5 +1,7 @@
-// Settler: personalised relocation checklist shown after the results page.
-// Content lives in settler-data.js; app.js calls Settler.setup() after each analysis.
+// Settler: personalised relocation checklist. Two ways in:
+//   - after an Explorer analysis — app.js calls Settler.setup() with the results
+//   - straight from the homepage — the picker screen asks for country + 3 quick answers
+// Content lives in settler-data.js.
 (() => {
   const { AFFILIATES, PHASES, COUNTRIES } = window.BX_SETTLER_DATA;
   const PASSIVE_INCOME_TYPES = ["Retired", "Unemployed", "Investment / passive income"];
@@ -7,9 +9,13 @@
 
   let ctx = null;
   let current = null; // { key, steps }
+  let returnTo = "results"; // screen the checklist back-link goes to
   let planLabels = {}; // country key → "Plan B · <title>" for countries a plan named
 
   const choicesEl = document.getElementById("settler-choices");
+  const pickerForm = document.getElementById("settler-picker-form");
+  const pickerSubmit = document.getElementById("btn-picker-submit");
+  const backLink = document.getElementById("btn-settler-back");
   const phasesEl = document.getElementById("settler-phases");
   const moveDateInput = document.getElementById("settler-move-date");
 
@@ -31,6 +37,8 @@
       // storage unavailable — progress just won't survive a reload
     }
   }
+
+  const displayName = (key) => COUNTRIES[key].name.replace(/^the /, "The ");
 
   const resolve = (value) => (typeof value === "function" ? value(ctx) : value);
 
@@ -83,7 +91,7 @@
       input.value = option.key;
       input.checked = i === 0;
       const name = document.createElement("strong");
-      name.textContent = COUNTRIES[option.key].name.replace(/^the /, "The ");
+      name.textContent = displayName(option.key);
       const sub = document.createElement("span");
       sub.textContent = option.sub;
       label.append(input, name, sub);
@@ -109,7 +117,7 @@
     return date;
   }
 
-  function open(key) {
+  function open(key, { basis, from }) {
     const country = COUNTRIES[key];
     const steps = country.steps
       .filter((s) => !s.when || s.when(ctx))
@@ -118,8 +126,9 @@
     current = { key, steps };
 
     document.getElementById("settler-title").textContent = `Your move to ${country.name}`;
-    document.getElementById("settler-basis").textContent =
-      planLabels[key] ? `Built for ${planLabels[key]}` : "Built from your answers";
+    document.getElementById("settler-basis").textContent = basis;
+    returnTo = from;
+    backLink.textContent = from === "results" ? "← Back to your results" : "← Change country or answers";
     moveDateInput.value = loadSaved(key).moveDate;
 
     render();
@@ -244,12 +253,78 @@
 
   document.getElementById("btn-settler").addEventListener("click", () => {
     const selected = choicesEl.querySelector("input[name=settlerCountry]:checked");
-    if (selected) open(selected.value);
+    if (!selected) return;
+    const key = selected.value;
+    open(key, {
+      basis: planLabels[key] ? `Built for ${planLabels[key]}` : "Built from your answers",
+      from: "results",
+    });
   });
 
-  document.getElementById("btn-settler-back").addEventListener("click", () => {
-    window.BordersX.showScreen("results");
+  backLink.addEventListener("click", () => {
+    window.BordersX.showScreen(returnTo);
   });
+
+  // ── Direct entry: homepage → picker → checklist ──
+
+  const PASSPORT_LABELS = { British: "British", American: "American", EU: "EU", Other: "non-EU" };
+
+  function renderPickerCountries() {
+    const el = document.getElementById("picker-countries");
+    Object.entries(COUNTRIES).forEach(([key, country]) => {
+      const label = document.createElement("label");
+      label.className = "settler-choice";
+      const input = document.createElement("input");
+      input.type = "radio";
+      input.name = "pickerCountry";
+      input.value = key;
+      input.required = true;
+      const name = document.createElement("strong");
+      name.textContent = displayName(key);
+      const sub = document.createElement("span");
+      sub.textContent = country.tagline;
+      label.append(input, name, sub);
+      el.appendChild(label);
+    });
+  }
+
+  function pickerValues() {
+    const data = new FormData(pickerForm);
+    return {
+      country: data.get("pickerCountry"),
+      passport: data.get("pickerPassport"),
+      family: data.get("pickerFamily") === "family",
+      passive: data.get("pickerIncome") === "passive",
+    };
+  }
+
+  pickerForm.addEventListener("change", () => {
+    const v = pickerValues();
+    pickerSubmit.disabled = !(v.country && v.passport);
+  });
+
+  pickerForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const v = pickerValues();
+    if (!v.country || !v.passport) return;
+    ctx = {
+      eu: v.passport === "EU",
+      british: v.passport === "British",
+      american: v.passport === "American",
+      family: v.family,
+      passive: v.passive,
+    };
+    open(v.country, {
+      basis: [
+        `${PASSPORT_LABELS[v.passport]} passport`,
+        v.family ? "Moving with family" : "Moving alone",
+        v.passive ? "Pension, savings or investment income" : "Working income",
+      ].join(" · "),
+      from: "settlerPicker",
+    });
+  });
+
+  renderPickerCountries();
 
   window.Settler = { setup };
 })();

@@ -135,6 +135,7 @@
     error: document.getElementById("screen-error"),
     results: document.getElementById("screen-results"),
     settler: document.getElementById("screen-settler"),
+    settlerPicker: document.getElementById("screen-settler-picker"),
   };
 
   function showScreen(name) {
@@ -296,7 +297,7 @@
     const actualIndex = visible[state.step];
     const total = visible.length;
     questions.forEach((q, i) => (q.hidden = i !== actualIndex));
-    btnBack.hidden = state.step === 0;
+    btnBack.hidden = false; // on question 1 it returns to the homepage
     progressFill.style.width = `${((state.step + 1) / total) * 100}%`;
     stepCount.textContent = `Question ${state.step + 1} of ${total}`;
     btnNext.textContent = state.step === total - 1 ? "Continue" : "Next";
@@ -318,7 +319,16 @@
     if (state.step > 0) {
       state.step -= 1;
       renderStep();
+    } else {
+      showScreen("intro");
     }
+  });
+
+  document.getElementById("btn-settler-mode").addEventListener("click", () => {
+    showScreen("settlerPicker");
+  });
+  document.getElementById("btn-picker-back").addEventListener("click", () => {
+    showScreen("intro");
   });
 
   document.getElementById("btn-back-email").addEventListener("click", () => {

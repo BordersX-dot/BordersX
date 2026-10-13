@@ -9,6 +9,8 @@
 //   when   optional (ctx) => boolean — step only shown when true
 //   links  optional affiliate keys from AFFILIATES below
 //
+// Each country also has a tagline, shown on the homepage Settler picker.
+//
 // ctx = { eu, british, american, family, passive } — derived from the quiz answers.
 //
 // Facts taken from knowledge.json — keep in sync when policy changes: pt-aima,
@@ -68,6 +70,7 @@
   const COUNTRIES = {
     portugal: {
       name: "Portugal",
+      tagline: "D7 / D8 visas · NHR2 tax regime",
       keywords: ["portugal", "portuguese", "lisbon", "porto", "madeira", "algarve", "azores"],
       steps: [
         {
@@ -213,6 +216,7 @@
 
     uae: {
       name: "the UAE",
+      tagline: "Golden Visa · no personal income tax",
       keywords: ["uae", "dubai", "abu dhabi", "emirates", "emirati", "sharjah", "ras al khaimah"],
       steps: [
         {
@@ -328,6 +332,7 @@
 
     malta: {
       name: "Malta",
+      tagline: "Nomad permit · Global Residence Programme",
       keywords: ["malta", "maltese", "valletta"],
       steps: [
         {
@@ -453,6 +458,7 @@
 
     georgia: {
       name: "Georgia",
+      tagline: "Visa-free year · 1% small business tax",
       keywords: ["georgia", "georgian", "tbilisi", "batumi"],
       steps: [
         {

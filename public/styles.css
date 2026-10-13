@@ -259,12 +259,117 @@ h3 { margin: 0 0 8px; }
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
+/* ── HOME: mode chooser ── */
+
+/* The hero carries the brand itself, so the top bar is only shown on inner screens. */
+body:has(#screen-intro:not([hidden])) .topbar { display: none; }
+.shell:has(#screen-intro:not([hidden])) { max-width: 960px; padding-top: 64px; }
+
+.home { text-align: center; }
+.home-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+.logo-mark-lg { width: 48px; height: 48px; border-radius: 12px; font-size: 1.4rem; }
+.home-wordmark { font-family: var(--font-head); font-size: 2.2rem; font-weight: 600; letter-spacing: -0.01em; }
+.home-wordmark strong { color: var(--accent-gold); font-weight: 700; }
+.home-tagline {
+  font-size: 1.15rem;
+  color: var(--fg-mid);
+  margin: 0 0 44px;
+}
+
+.mode-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  text-align: left;
+}
+.mode-card {
+  --mode-accent: var(--accent-teal);
+  --mode-soft: var(--accent-teal-soft);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-top: 4px solid var(--mode-accent);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 32px 30px 26px;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+.mode-card:hover { transform: translateY(-2px); border-color: var(--mode-accent); }
+.mode-settler {
+  --mode-accent: var(--accent-gold);
+  --mode-soft: var(--accent-gold-soft);
+}
+.mode-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--mode-soft);
+  color: var(--mode-accent);
+  margin-bottom: 20px;
+}
+.mode-settler .mode-icon { color: var(--accent-gold-ink); }
+.mode-title { font-size: 1.6rem; font-weight: 700; margin: 0 0 2px; }
+.mode-subtitle {
+  font-family: var(--font-head);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--mode-accent);
+  margin: 0 0 14px;
+}
+.mode-settler .mode-subtitle { color: var(--accent-gold-ink); }
+.mode-desc { color: var(--fg-mid); line-height: 1.65; margin: 0 0 26px; }
+.mode-card .btn { margin-top: auto; width: 100%; }
+.mode-meta { margin-top: 12px; font-size: 0.8rem; color: var(--fg-muted); align-self: center; }
+
+/* ── SETTLER PICKER ── */
+.eyebrow-gold { color: var(--accent-gold-ink); }
+.picker-group { border: none; padding: 0; margin: 0 0 26px; min-width: 0; }
+.picker-group legend {
+  font-family: var(--font-head);
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 0;
+  margin-bottom: 12px;
+}
+.picker-group .settler-choices { margin-bottom: 0; }
+#screen-settler-picker .settler-choice span { white-space: normal; }
+#screen-settler-picker .settler-choice:hover { border-color: var(--accent-gold); }
+#screen-settler-picker .settler-choice:has(input:checked) { border-color: var(--accent-gold); background: var(--accent-gold-soft); }
+#screen-settler-picker .settler-choice:has(input:focus-visible) { outline-color: var(--accent-gold); }
+.pill-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.pill { position: relative; cursor: pointer; }
+.pill input { position: absolute; opacity: 0; pointer-events: none; }
+.pill span {
+  display: inline-block;
+  border: 1.5px solid var(--border);
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: border-color 0.12s ease, background 0.12s ease;
+}
+.pill:hover span { border-color: var(--accent-gold); }
+.pill input:checked + span { border-color: var(--accent-gold); background: var(--accent-gold-soft); color: var(--fg); }
+.pill input:focus-visible + span { outline: 2px solid var(--accent-gold); outline-offset: 2px; }
+#settler-picker-form .btn-gold { margin-top: 6px; }
+
 /* ── RESULTS REPORT ── */
 
 /* The report sits directly on the page background rather than inside a panel,
    and carries its own disclaimer, so the global footer is hidden alongside it. */
 body:has(#screen-results:not([hidden])) .footer,
 body:has(#screen-settler:not([hidden])) .footer { display: none; }
+.back-link + .report-header .lede { margin-bottom: 0; }
 
 .report-header {
   padding-bottom: 24px;
@@ -567,14 +672,17 @@ body:has(#screen-settler:not([hidden])) .footer { display: none; }
 }
 .cta-block h3 { color: var(--on-brand); font-size: 1.3rem; font-weight: 700; margin: 0 0 8px; text-wrap: balance; }
 .cta-block p { color: rgba(255,255,255,0.72); margin: 0 0 24px; }
-.btn-cta {
+.btn-cta,
+.btn-gold {
   display: inline-block;
   background: var(--accent-gold);
   color: #0D1F3C;
   text-decoration: none;
   box-shadow: 0 10px 24px -8px color-mix(in srgb, var(--accent-gold) 55%, transparent);
 }
-.btn-cta:hover { background: var(--accent-gold-hover); }
+.btn-cta:hover,
+.btn-gold:hover { background: var(--accent-gold-hover); }
+.btn-gold:disabled { opacity: 0.45; cursor: not-allowed; box-shadow: none; }
 .cta-secondary {
   display: block;
   margin: 16px auto 0;
@@ -786,5 +894,10 @@ body:has(#screen-settler:not([hidden])) .footer { display: none; }
   .plan-body { padding: 16px 18px; }
   .insight-box { padding: 18px; }
   .settler-cta { padding: 22px 18px; }
+  .shell:has(#screen-intro:not([hidden])) { padding-top: 40px; }
+  .home-wordmark { font-size: 1.8rem; }
+  .home-tagline { margin-bottom: 28px; }
+  .mode-cards { grid-template-columns: 1fr; gap: 16px; }
+  .mode-card { padding: 26px 22px 22px; }
   .settler-step { padding: 16px; }
 }

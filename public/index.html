@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="color-scheme" content="light dark" />
-  <title>BordersX — AI Mobility Strategist</title>
+  <title>BordersX — Your global mobility platform</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@500;600;700&display=swap" />
@@ -19,25 +19,97 @@
         <span class="logo-mark">X</span>
         <span class="logo-text">Borders<strong>X</strong></span>
       </div>
-      <div class="tagline">AI Mobility Strategist</div>
+      <div class="tagline">Your global mobility platform</div>
     </div>
   </header>
 
   <main class="shell">
 
-    <!-- INTRO -->
-    <section class="panel" id="screen-intro" data-screen>
-      <div class="eyebrow">Personal Mobility Analysis</div>
-      <h1>Find your strongest path to global optionality.</h1>
-      <p class="lede">
-        Answer 8 quick questions about your nationality, income, and goals. Our AI strategist —
-        backed by up-to-date lawyer insight and policy data — will score your current mobility
-        position and lay out a concrete plan for residency, tax efficiency, and a second citizenship.
-      </p>
-      <button class="btn btn-primary" id="btn-start">Start My Analysis</button>
-      <div class="trust-row">
-        <span>8 questions</span><span class="dot">•</span><span>~2 minutes</span><span class="dot">•</span><span>No obligation</span>
+    <!-- HOME: choose a mode -->
+    <section class="home" id="screen-intro" data-screen>
+      <div class="home-brand">
+        <span class="logo-mark logo-mark-lg">X</span>
+        <span class="home-wordmark">Borders<strong>X</strong></span>
       </div>
+      <p class="home-tagline">Your global mobility platform</p>
+
+      <div class="mode-cards">
+        <article class="mode-card mode-explorer">
+          <div class="mode-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="9.5" />
+              <polygon points="15.8 8.2 13.6 13.6 8.2 15.8 10.4 10.4 15.8 8.2" />
+            </svg>
+          </div>
+          <h2 class="mode-title">Explorer</h2>
+          <p class="mode-subtitle">Find your optimal country</p>
+          <p class="mode-desc">Tell us your situation and we’ll build you a personalised relocation strategy with timelines, costs and first steps.</p>
+          <button type="button" class="btn btn-primary" id="btn-start">Start my analysis →</button>
+          <div class="mode-meta">8 questions · ~2 minutes</div>
+        </article>
+
+        <article class="mode-card mode-settler">
+          <div class="mode-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="4.5" y="3.5" width="15" height="18" rx="2" />
+              <path d="M9 3.5h6v2.5H9z" />
+              <path d="M8 11l1.5 1.5L12 10" />
+              <path d="M8 16.5l1.5 1.5L12 15.5" />
+              <path d="M14 11.5h2.5M14 17h2.5" />
+            </svg>
+          </div>
+          <h2 class="mode-title">Settler</h2>
+          <p class="mode-subtitle">I’ve chosen my country</p>
+          <p class="mode-desc">Get a step-by-step relocation checklist with deadlines, banking setup, accommodation and tax registration.</p>
+          <button type="button" class="btn btn-gold" id="btn-settler-mode">Get my checklist →</button>
+          <div class="mode-meta">Portugal · UAE · Malta · Georgia</div>
+        </article>
+      </div>
+    </section>
+
+    <!-- SETTLER PICKER (direct entry, skips the quiz) -->
+    <section class="report" id="screen-settler-picker" data-screen hidden>
+      <button type="button" class="back-link" id="btn-picker-back">← Back</button>
+      <header class="report-header">
+        <div class="eyebrow eyebrow-gold">Settler</div>
+        <h1 class="report-title">Where are you moving?</h1>
+        <p class="lede">Pick your country and answer three quick questions so we can tailor the checklist — visa steps depend on your passport.</p>
+      </header>
+
+      <form id="settler-picker-form">
+        <fieldset class="picker-group">
+          <legend>Destination</legend>
+          <div class="settler-choices" id="picker-countries"></div>
+        </fieldset>
+
+        <fieldset class="picker-group">
+          <legend>Your passport</legend>
+          <div class="pill-row">
+            <label class="pill"><input type="radio" name="pickerPassport" value="British" required><span>British</span></label>
+            <label class="pill"><input type="radio" name="pickerPassport" value="American"><span>American</span></label>
+            <label class="pill"><input type="radio" name="pickerPassport" value="EU"><span>EU country</span></label>
+            <label class="pill"><input type="radio" name="pickerPassport" value="Other"><span>Other</span></label>
+          </div>
+        </fieldset>
+
+        <fieldset class="picker-group">
+          <legend>Who’s moving?</legend>
+          <div class="pill-row">
+            <label class="pill"><input type="radio" name="pickerFamily" value="alone" checked><span>Just me</span></label>
+            <label class="pill"><input type="radio" name="pickerFamily" value="family"><span>With family</span></label>
+          </div>
+        </fieldset>
+
+        <fieldset class="picker-group">
+          <legend>Your income</legend>
+          <div class="pill-row">
+            <label class="pill"><input type="radio" name="pickerIncome" value="working" checked><span>Working or self-employed</span></label>
+            <label class="pill"><input type="radio" name="pickerIncome" value="passive"><span>Pension, savings or investments</span></label>
+          </div>
+        </fieldset>
+
+        <button type="submit" class="btn btn-gold" id="btn-picker-submit" disabled>Get my checklist →</button>
+      </form>
     </section>
 
     <!-- QUIZ -->
