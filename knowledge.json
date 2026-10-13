@@ -1,0 +1,107 @@
+{
+  "notes": "Add or edit entries below at any time — every entry is included in every Claude API call, no restart required. Keep 'insight' factual and current; it is treated as authoritative and should override the model's general training knowledge when the two conflict.",
+  "entries": [
+    {
+      "category": "Golden Visa",
+      "title": "Portugal Golden Visa — real estate route closed",
+      "insight": "As of October 2023, Portugal's Golden Visa no longer accepts real estate investment as a qualifying route. Current qualifying routes are capital transfer into regulated investment/venture capital funds (minimum EUR 500,000), job creation (10+ jobs), or donations to arts/culture (minimum EUR 250,000). Physical presence requirement remains low: an average of 7 days per year over the 5-year residency period before citizenship eligibility.",
+      "lastUpdated": "2025-01-15"
+    },
+    {
+      "category": "Golden Visa",
+      "title": "Greece Golden Visa — tiered minimums by region",
+      "insight": "Greece raised its Golden Visa real estate minimum to EUR 800,000 in high-demand areas (Athens, Thessaloniki, Mykonos, Santorini) and EUR 400,000 elsewhere, effective from mid-2024. No physical residency requirement to maintain the permit, making it attractive as a pure Plan B option rather than a path to citizenship (naturalization requires 7 years of actual residency).",
+      "lastUpdated": "2025-02-01"
+    },
+    {
+      "category": "Citizenship by Descent",
+      "title": "Italian jure sanguinis — no generational limit, but consulate backlogs are severe",
+      "insight": "Italy allows citizenship by descent with no generational limit as long as the ancestral line was never broken by naturalization in another country before the next descendant's birth. Consulate wait times in the US and UK can exceed 2-3 years; applying through an Italian municipality (comune) in person or via a 1948 court case route is often materially faster than consulate applications.",
+      "lastUpdated": "2025-03-10"
+    },
+    {
+      "category": "Citizenship by Descent",
+      "title": "Irish citizenship by descent — grandparent rule",
+      "insight": "A person with an Irish-born grandparent can typically claim Irish citizenship through Foreign Births Registration, which also confers EU citizenship and full freedom of movement across the EU/EEA. If the qualifying parent had not yet registered their own Irish citizenship before the applicant's birth, the applicant should register the parent first, which can add significant time — plan for 18-24 months total.",
+      "lastUpdated": "2025-01-20"
+    },
+    {
+      "category": "US Tax",
+      "title": "US citizens face worldwide taxation regardless of residency",
+      "insight": "Unlike almost every other country, the US taxes citizens on worldwide income regardless of where they live, and only renouncing citizenship ends this obligation. The Foreign Earned Income Exclusion (FEIE) shelters roughly the first $126,500 (2024 figure, indexed annually) of foreign-earned income for US citizens who meet the bona fide residence or physical presence test, but does not eliminate self-employment tax or apply to investment/passive income.",
+      "lastUpdated": "2025-01-05"
+    },
+    {
+      "category": "US Tax",
+      "title": "US exit tax applies to high-net-worth renunciants",
+      "insight": "US citizens who renounce and meet the 'covered expatriate' thresholds (net worth over $2 million, or average net US tax liability over ~$201,000 for the prior 5 years, or failure to certify 5 years of tax compliance) are subject to a mark-to-market exit tax on unrealized gains as if all worldwide assets were sold the day before expatriation.",
+      "lastUpdated": "2025-01-05"
+    },
+    {
+      "category": "UK Tax",
+      "title": "UK non-dom regime abolished from April 2025",
+      "insight": "The UK's remittance-basis non-domiciled tax regime was abolished from 6 April 2025, replaced by a residence-based Foreign Income and Gains (FIG) regime offering only a 4-year exemption for new arrivals who have not been UK tax resident in the prior 10 years. This significantly shortens the planning window for UK-resident individuals with substantial foreign income who previously relied on long-term non-dom status.",
+      "lastUpdated": "2025-04-01"
+    },
+    {
+      "category": "Digital Nomad / Remote Income",
+      "title": "Spain's Digital Nomad Visa offers a flat reduced tax rate",
+      "insight": "Spain's Digital Nomad Visa (Startup Law, 2023) allows remote workers and their employers/clients to be based outside Spain while the applicant lives in Spain, with an option to elect taxation under the Beckham Law regime — a flat 24% rate on Spanish-sourced employment income up to EUR 600,000, rather than progressive rates up to 47%, for up to 6 years.",
+      "lastUpdated": "2025-02-15"
+    },
+    {
+      "category": "Second Passport",
+      "title": "Caribbean CBI programs remain the fastest route to a second passport",
+      "insight": "Citizenship-by-investment programs in St Kitts & Nevis, Dominica, Antigua & Barbuda, Grenada, and St Lucia offer second passports in roughly 4-8 months via a non-refundable government donation (from approximately $200,000 for a single applicant, higher for families) or real estate investment (from $200,000-$400,000, resalable after 5-7 years). These passports offer visa-free access to 140+ countries including the Schengen area but not the US or UK, and do not require residency.",
+      "lastUpdated": "2025-03-01"
+    },
+    {
+      "category": "Second Passport",
+      "title": "US and UK citizens face enhanced due diligence on CBI applications",
+      "insight": "Following 2024 EU pressure on Caribbean CBI programs, all major providers now apply enhanced due diligence, interviews, and source-of-funds documentation. US citizens must also disclose CBI passports are not a route to escaping US tax obligations without formal renunciation — a common misconception among prospective applicants.",
+      "lastUpdated": "2025-03-05"
+    },
+    {
+      "category": "Citizenship by Naturalization",
+      "title": "Portugal citizenship now requires 10 years of legal residency",
+      "insight": "Portugal changed the citizenship-by-naturalization residency requirement from 5 years to 10 years, effective May 2026. Any advice stating 5 years is now incorrect.",
+      "lastUpdated": "2026-09-17"
+    },
+    {
+      "category": "Immigration Process",
+      "title": "Portugal AIMA appointment backlog",
+      "insight": "AIMA appointments are currently backlogged 8-12 weeks. Applicants must begin the appointment process before or immediately upon arriving in Portugal — waiting until month 2-3 after arrival causes serious delays.",
+      "lastUpdated": "2026-09-17"
+    },
+    {
+      "category": "Portugal Tax",
+      "title": "Portugal NHR2 (IFICI) application window is not retrospective",
+      "insight": "NHR2 (IFICI) tax status must be applied for within the first year of Portuguese residency. Missing this window means losing it permanently — it cannot be applied for retrospectively.",
+      "lastUpdated": "2026-09-17"
+    },
+    {
+      "category": "Citizenship by Descent",
+      "title": "Ireland Foreign Birth Registration — current processing time",
+      "insight": "Irish Foreign Birth Registration (FBR) is currently processing in 12-16 months, consistently at the longer end — not the 6-18 months stated on Irish government websites.",
+      "lastUpdated": "2026-09-17"
+    },
+    {
+      "category": "Citizenship by Descent",
+      "title": "Italian citizenship by descent — eligibility rules currently uncertain",
+      "insight": "Italian jure sanguinis rules changed in 2024. Do not state specific eligibility rules with confidence — always flag as uncertain and redirect the client to an Italian citizenship specialist for line verification.",
+      "lastUpdated": "2026-09-17"
+    },
+    {
+      "category": "UAE Residency",
+      "title": "UAE residency — 90-day minimum stay requirement",
+      "insight": "UAE residency requires spending a minimum of 90 days per year in the UAE to maintain residency status. HMRC also uses this 90-day figure when assessing UK non-residency claims, so missing the requirement risks losing both UAE residency and UK non-resident tax status simultaneously.",
+      "lastUpdated": "2026-09-17"
+    },
+    {
+      "category": "Strategy",
+      "title": "Run Irish FBR and Portugal D8 in parallel, not sequentially",
+      "insight": "British nationals with Irish ancestry moving to Portugal should run the Irish Foreign Birth Registration and Portugal D8 visa processes in parallel, not sequentially — the two do not conflict. By the time Portuguese residency matures toward naturalization, the Irish passport may already be in hand. Most advisors suggest pursuing one route or the other; running both simultaneously is the stronger move.",
+      "lastUpdated": "2026-09-17"
+    }
+  ]
+}

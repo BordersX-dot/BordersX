@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light dark" />
+  <title>BordersX — AI Mobility Strategist</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@500;600;700&display=swap" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="bg-decor" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="logo">
+        <span class="logo-mark">X</span>
+        <span class="logo-text">Borders<strong>X</strong></span>
+      </div>
+      <div class="tagline">AI Mobility Strategist</div>
+    </div>
+  </header>
+
+  <main class="shell">
+
+    <!-- INTRO -->
+    <section class="panel" id="screen-intro" data-screen>
+      <div class="eyebrow">Personal Mobility Analysis</div>
+      <h1>Find your strongest path to global optionality.</h1>
+      <p class="lede">
+        Answer 8 quick questions about your nationality, income, and goals. Our AI strategist —
+        backed by up-to-date lawyer insight and policy data — will score your current mobility
+        position and lay out a concrete plan for residency, tax efficiency, and a second citizenship.
+      </p>
+      <button class="btn btn-primary" id="btn-start">Start My Analysis</button>
+      <div class="trust-row">
+        <span>8 questions</span><span class="dot">•</span><span>~2 minutes</span><span class="dot">•</span><span>No obligation</span>
+      </div>
+    </section>
+
+    <!-- QUIZ -->
+    <section class="panel" id="screen-quiz" data-screen hidden>
+      <div class="progress-track">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+      <div class="step-count" id="step-count">Question 1 of 8</div>
+
+      <form id="quiz-form">
+        <!-- Q1 -->
+        <div class="q" data-q="0">
+          <h2>What is your nationality?</h2>
+          <div class="options" data-name="nationality">
+            <label class="opt"><input type="radio" name="nationality" value="British" required><span>British</span></label>
+            <label class="opt"><input type="radio" name="nationality" value="American"><span>American</span></label>
+            <label class="opt"><input type="radio" name="nationality" value="Other"><span>Other</span></label>
+          </div>
+          <input type="text" id="nationalityOther" class="text-input" placeholder="Please specify your nationality" maxlength="100" hidden />
+          <p id="nationalityHint" class="field-hint" hidden></p>
+        </div>
+
+        <!-- Q2 -->
+        <div class="q" data-q="1" hidden>
+          <h2>How would you describe your income?</h2>
+          <div class="options" data-name="incomeType">
+            <label class="opt"><input type="radio" name="incomeType" value="Employed (salary/PAYE)" required><span>Employed (salary)</span></label>
+            <label class="opt"><input type="radio" name="incomeType" value="Self-employed / freelance"><span>Self-employed / freelance</span></label>
+            <label class="opt"><input type="radio" name="incomeType" value="Business owner / equity holder"><span>Business owner / equity holder</span></label>
+            <label class="opt"><input type="radio" name="incomeType" value="Remote worker for a foreign employer"><span>Remote worker (foreign employer)</span></label>
+            <label class="opt"><input type="radio" name="incomeType" value="Investment / passive income"><span>Investment / passive income</span></label>
+            <label class="opt"><input type="radio" name="incomeType" value="Retired"><span>Retired</span></label>
+            <label class="opt"><input type="radio" name="incomeType" value="Unemployed"><span>Unemployed</span></label>
+          </div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="q" data-q="2" hidden>
+          <h2 id="incomeLevel-heading">What is your approximate annual income or liquid net worth?</h2>
+          <div class="options" data-name="incomeLevel" id="incomeLevel-options">
+            <!-- populated dynamically based on nationality and income type, see app.js -->
+          </div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="q" data-q="3" hidden>
+          <h2>What's your primary goal?</h2>
+          <div class="options" data-name="goal">
+            <label class="opt"><input type="radio" name="goal" value="Reduce my tax burden" required><span>Reduce my tax burden</span></label>
+            <label class="opt"><input type="radio" name="goal" value="Obtain a second residency"><span>Obtain a second residency</span></label>
+            <label class="opt"><input type="radio" name="goal" value="Obtain a second citizenship / passport"><span>Obtain a second citizenship</span></label>
+            <label class="opt"><input type="radio" name="goal" value="Build a geopolitical 'Plan B' safe haven"><span>Build a "Plan B" safe haven</span></label>
+            <label class="opt"><input type="radio" name="goal" value="Relocate for lifestyle reasons"><span>Relocate for lifestyle</span></label>
+            <label class="opt"><input type="radio" name="goal" value="Protect assets / wealth"><span>Protect assets / wealth</span></label>
+          </div>
+        </div>
+
+        <!-- Q5 -->
+        <div class="q" data-q="4" hidden>
+          <h2>Where are you thinking of moving?</h2>
+          <div class="options" data-name="destinationCountry">
+            <label class="opt"><input type="radio" name="destinationCountry" value="Portugal" required><span>Portugal</span></label>
+            <label class="opt"><input type="radio" name="destinationCountry" value="UAE / Dubai"><span>UAE / Dubai</span></label>
+            <label class="opt"><input type="radio" name="destinationCountry" value="Spain"><span>Spain</span></label>
+            <label class="opt"><input type="radio" name="destinationCountry" value="Georgia"><span>Georgia</span></label>
+            <label class="opt"><input type="radio" name="destinationCountry" value="Singapore"><span>Singapore</span></label>
+            <label class="opt"><input type="radio" name="destinationCountry" value="Caribbean"><span>Caribbean</span></label>
+            <label class="opt"><input type="radio" name="destinationCountry" value="Paraguay"><span>Paraguay</span></label>
+            <label class="opt"><input type="radio" name="destinationCountry" value="Not sure yet"><span>Not sure yet — show me the best options</span></label>
+            <label class="opt"><input type="radio" name="destinationCountry" value="Somewhere else"><span>Somewhere else — let me type it</span></label>
+          </div>
+          <input type="text" id="destinationOther" class="text-input" placeholder="Where are you thinking of?" hidden />
+        </div>
+
+        <!-- Q6 -->
+        <div class="q" data-q="5" hidden>
+          <h2>Do you have European ancestry?</h2>
+          <p class="q-hint">e.g. a parent or grandparent born in an EU country, Ireland, Italy, Poland, etc.</p>
+          <div class="options" data-name="europeanAncestry">
+            <label class="opt"><input type="radio" name="europeanAncestry" value="Yes" required><span>Yes</span></label>
+            <label class="opt"><input type="radio" name="europeanAncestry" value="Not sure"><span>Not sure</span></label>
+            <label class="opt"><input type="radio" name="europeanAncestry" value="No"><span>No</span></label>
+          </div>
+          <input type="text" id="ancestryDetail" class="text-input" placeholder="Which country, and how many generations back?" hidden />
+        </div>
+
+        <!-- Q7 -->
+        <div class="q" data-q="6" hidden>
+          <h2>Who would this plan need to cover?</h2>
+          <div class="options" data-name="dependants">
+            <label class="opt"><input type="radio" name="dependants" value="Just me" required><span>Just me</span></label>
+            <label class="opt"><input type="radio" name="dependants" value="Me and my spouse/partner"><span>Me and my spouse/partner</span></label>
+            <label class="opt"><input type="radio" name="dependants" value="Me, spouse, and children"><span>Me, spouse, and children</span></label>
+            <label class="opt"><input type="radio" name="dependants" value="Me and my children"><span>Me and my children</span></label>
+            <label class="opt"><input type="radio" name="dependants" value="Extended family (parents, etc.)"><span>Extended family</span></label>
+          </div>
+        </div>
+
+        <!-- Q8 -->
+        <div class="q" data-q="7" hidden>
+          <h2>What's your timeline?</h2>
+          <div class="options" data-name="timeline">
+            <label class="opt"><input type="radio" name="timeline" value="Ready to move (0–6 months)" required><span>Ready to move (0–6 months)</span></label>
+            <label class="opt"><input type="radio" name="timeline" value="Planning ahead (6–18 months)"><span>Planning ahead (6–18 months)</span></label>
+            <label class="opt"><input type="radio" name="timeline" value="Longer term (2–4 years)"><span>Longer term (2–4 years)</span></label>
+            <label class="opt"><input type="radio" name="timeline" value="Just exploring (no timeline yet)"><span>Just exploring (no timeline yet)</span></label>
+          </div>
+        </div>
+      </form>
+
+      <div class="nav-row">
+        <button class="btn btn-ghost" id="btn-back" hidden>Back</button>
+        <button class="btn btn-primary" id="btn-next" disabled>Next</button>
+      </div>
+    </section>
+
+    <!-- EMAIL CAPTURE -->
+    <section class="panel" id="screen-email" data-screen hidden>
+      <div class="eyebrow">Almost there</div>
+      <h1>Where should we send your results?</h1>
+      <p class="lede">Enter your email to unlock your personalised Mobility Score and full strategy.</p>
+      <form id="email-form">
+        <input type="email" id="email-input" class="text-input text-input-lg" placeholder="you@example.com" required />
+        <button class="btn btn-primary btn-block" type="submit" id="btn-reveal">Reveal My Strategy</button>
+      </form>
+      <p class="fine-print">We'll only use this to send your results and relevant mobility updates. No spam.</p>
+      <div class="nav-row nav-row-single">
+        <button class="btn btn-ghost" id="btn-back-email">Back</button>
+      </div>
+    </section>
+
+    <!-- LOADING -->
+    <section class="panel panel-center" id="screen-loading" data-screen hidden>
+      <div class="spinner"></div>
+      <h2>Building your strategy…</h2>
+      <p class="lede">Our AI strategist is cross-referencing current policy and lawyer insight for your situation.</p>
+    </section>
+
+    <!-- ERROR -->
+    <section class="panel" id="screen-error" data-screen hidden>
+      <h1>Something went wrong</h1>
+      <p class="lede" id="error-message">We couldn't generate your strategy. Please try again.</p>
+      <button class="btn btn-primary" id="btn-retry">Try Again</button>
+    </section>
+
+    <!-- RESULTS -->
+    <section class="report" id="screen-results" data-screen hidden>
+
+      <header class="report-header">
+        <div class="eyebrow">Your Mobility Analysis</div>
+        <h1 class="report-title">Here's where you stand — and where you could go.</h1>
+        <div class="profile-tags" id="profile-tags"></div>
+      </header>
+
+      <div class="score-block">
+        <div class="score-ring-wrap">
+          <svg viewBox="0 0 120 120" class="score-ring" aria-hidden="true">
+            <circle cx="60" cy="60" r="52" class="score-ring-bg" />
+            <circle cx="60" cy="60" r="52" class="score-ring-fg" id="score-ring-fg" />
+          </svg>
+          <div class="score-number"><span id="score-number">0</span><small>/100</small></div>
+        </div>
+        <div class="score-copy">
+          <div class="score-label">Mobility Score</div>
+          <p id="score-summary"></p>
+        </div>
+      </div>
+
+      <div class="section-label">Your three strategies</div>
+      <div class="plans">
+        <article class="plan-card plan-a">
+          <div class="plan-header">
+            <div class="plan-title-wrap">
+              <div class="plan-subtitle">Plan A · Where you stand</div>
+              <h2 class="plan-title" id="planA-title"></h2>
+            </div>
+            <span class="plan-badge badge-a">Primary</span>
+          </div>
+          <div class="plan-metrics">
+            <div class="metric"><div class="metric-label">Timeline</div><div class="metric-value">Today</div></div>
+            <div class="metric"><div class="metric-label">Est. Cost</div><div class="metric-value">No change</div></div>
+            <div class="metric"><div class="metric-label" id="planA-figure-label"></div><div class="metric-value" id="planA-figure"></div></div>
+          </div>
+          <div class="plan-body">
+            <p class="plan-summary" id="planA-summary"></p>
+            <ul class="plan-points" id="planA-details"></ul>
+            <div class="plan-insight" id="planA-insight-box" hidden>
+              <div class="insight-label">Watch out for</div>
+              <p id="planA-insight"></p>
+            </div>
+          </div>
+        </article>
+
+        <article class="plan-card plan-b">
+          <div class="plan-header">
+            <div class="plan-title-wrap">
+              <div class="plan-subtitle">Plan B · Strongest move</div>
+              <h2 class="plan-title" id="planB-title"></h2>
+            </div>
+            <span class="plan-badge badge-b">Alternative</span>
+          </div>
+          <div class="plan-metrics">
+            <div class="metric"><div class="metric-label">Timeline</div><div class="metric-value" id="planB-timeline"></div></div>
+            <div class="metric"><div class="metric-label">Est. Cost</div><div class="metric-value" id="planB-cost"></div></div>
+            <div class="metric"><div class="metric-label" id="planB-figure-label"></div><div class="metric-value" id="planB-figure"></div></div>
+          </div>
+          <div class="plan-body">
+            <p class="plan-summary" id="planB-summary"></p>
+            <details class="plan-expand" open>
+              <summary>Your three actions this week</summary>
+              <ol class="action-list" id="weekly-actions"></ol>
+            </details>
+            <details class="plan-expand">
+              <summary id="planB-steps-toggle">View steps</summary>
+              <ol class="action-list" id="planB-steps"></ol>
+            </details>
+            <div class="plan-insight" id="planB-insight-box" hidden>
+              <div class="insight-label">Watch out for</div>
+              <p id="planB-insight"></p>
+            </div>
+          </div>
+        </article>
+
+        <article class="plan-card plan-c">
+          <div class="plan-header">
+            <div class="plan-title-wrap">
+              <div class="plan-subtitle">Plan C · Citizenship route</div>
+              <h2 class="plan-title" id="planC-title"></h2>
+            </div>
+            <span class="plan-badge badge-c">Hedge</span>
+          </div>
+          <div class="plan-metrics">
+            <div class="metric"><div class="metric-label">Timeline</div><div class="metric-value" id="planC-timeline"></div></div>
+            <div class="metric"><div class="metric-label">Est. Cost</div><div class="metric-value" id="planC-cost"></div></div>
+            <div class="metric"><div class="metric-label" id="planC-figure-label"></div><div class="metric-value" id="planC-figure"></div></div>
+          </div>
+          <div class="plan-body">
+            <p class="plan-summary" id="planC-summary"></p>
+            <details class="plan-expand">
+              <summary id="planC-steps-toggle">View steps</summary>
+              <ol class="action-list" id="planC-steps"></ol>
+            </details>
+            <div class="plan-insight" id="planC-insight-box" hidden>
+              <div class="insight-label">Watch out for</div>
+              <p id="planC-insight"></p>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div class="insight-box">
+        <div class="insight-icon" aria-hidden="true">✦</div>
+        <div>
+          <div class="insight-label">The insight most people miss</div>
+          <p class="insight-text" id="key-insight"></p>
+        </div>
+      </div>
+
+      <div class="cta-block">
+        <h3>Ready to move on this?</h3>
+        <p>Talk through your specific situation with a BordersX strategist before committing to anything.</p>
+        <a class="btn btn-cta" href="https://calendly.com/kurran-bordersx/bordersx-free-strategy-call" target="_blank" rel="noopener noreferrer">
+          Book a free 15-min strategy call →
+        </a>
+        <button type="button" class="cta-secondary" id="btn-restart">Start a new analysis</button>
+      </div>
+
+      <div class="disclaimer">
+        BordersX provides educational information and general strategy guidance only — not legal, tax, or immigration advice. Policies, thresholds and programme requirements change frequently. Always verify current rules with a qualified adviser before taking action.
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div>BordersX — AI-powered mobility strategy. Not legal or tax advice; a licensed advisor should confirm any plan before you act on it.</div>
+  </footer>
+
+  <script src="/app.js"></script>
+</body>
+</html>
