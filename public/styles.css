@@ -828,6 +828,16 @@ body:has(#screen-settler:not([hidden])) .footer { display: none; }
 .settler-step.is-done .settler-due { color: var(--fg-muted); background: var(--card-sunken); }
 .settler-step p { margin: 0; color: var(--fg-mid); font-size: 0.92rem; line-height: 1.6; overflow-wrap: anywhere; }
 
+.settler-step p.settler-tip {
+  margin-top: 12px;
+  padding: 10px 14px;
+  background: var(--accent-gold-soft);
+  border-left: 3px solid var(--accent-gold);
+  border-radius: var(--radius-sm);
+  color: var(--fg);
+  font-size: 0.88rem;
+}
+
 .settler-step-footer {
   display: flex;
   justify-content: space-between;

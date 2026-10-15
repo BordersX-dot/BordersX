@@ -8,6 +8,8 @@
 //   title  / body  string, or (ctx) => string for personalised wording
 //   when   optional (ctx) => boolean — step only shown when true
 //   links  optional affiliate keys from AFFILIATES below
+//   tips   optional [{ text, when? }] callouts under the description;
+//          "when" works like the step-level one (e.g. c => c.american)
 //
 // Each country also has a tagline, shown on the homepage Settler picker.
 //
@@ -25,6 +27,7 @@
     sim: { label: "Get an eSIM for arrival", url: "https://www.airalo.com/" },
     spotahome: { label: "Browse rentals on Spotahome", url: "https://www.spotahome.com/" },
     taxAdvisor: { label: "Get matched with a tax adviser", url: CALENDLY },
+    activobank: { label: "Open an ActivoBank account", url: "https://www.activobank.pt" },
   };
 
   const PHASES = [
@@ -99,8 +102,18 @@
           days: -75,
           title: "Open your bank accounts",
           body: (c) =>
-            `Use a multi-currency account to move money at close to the mid-market rate, and open a Portuguese account once you have your NIF${c.eu ? "." : " — the visa application requires one."}`,
-          links: ["wise", "revolut"],
+            `Use a multi-currency account to move money at close to the mid-market rate, and open a Portuguese account once you have your NIF${c.eu ? "." : " — the visa application requires one."} For the Portuguese account we recommend ActivoBank: digital-first, low fees, and straightforward to open as a new resident.`,
+          links: ["activobank", "wise", "revolut"],
+          tips: [
+            {
+              when: (c) => c.american,
+              text: "ActivoBank is FATCA-compliant — one of the few Portuguese banks that will open accounts for US citizens without issue.",
+            },
+            {
+              when: (c) => c.british,
+              text: "Top tip: Millennium BCP has a London branch (City of London) that can open a Portuguese account before you leave the UK. This saves significant time on arrival — book an appointment before your move date.",
+            },
+          ],
         },
         {
           id: "pt-tax",

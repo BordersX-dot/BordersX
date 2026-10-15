@@ -205,7 +205,14 @@
         check.append(box, checkText);
         footer.append(links, check);
 
-        li.append(top, body, footer);
+        const tips = (step.tips || []).filter((t) => !t.when || t.when(ctx)).map((t) => {
+          const tip = document.createElement("p");
+          tip.className = "settler-tip";
+          tip.textContent = t.text;
+          return tip;
+        });
+
+        li.append(top, body, ...tips, footer);
         list.appendChild(li);
       });
 
