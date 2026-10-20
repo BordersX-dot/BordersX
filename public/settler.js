@@ -78,7 +78,7 @@
       }
     });
     Object.keys(COUNTRIES).forEach((key) => {
-      if (!options.some((o) => o.key === key)) options.push({ key, sub: "Other supported country" });
+      if (!options.some((o) => o.key === key)) options.push({ key, sub: COUNTRIES[key].tagline });
     });
 
     choicesEl.innerHTML = "";
