@@ -752,6 +752,8 @@ body:has(#screen-settler:not([hidden])) .footer { display: none; }
 .settler-choice:has(input:checked) { border-color: var(--accent-teal); background: var(--accent-teal-soft); }
 .settler-choice:has(input:focus-visible) { outline: 2px solid var(--accent-teal); outline-offset: 2px; }
 .settler-choice input { position: absolute; opacity: 0; pointer-events: none; }
+button.settler-choice { font: inherit; color: inherit; background: none; text-align: left; }
+button.settler-choice:focus-visible { outline: 2px solid var(--accent-teal); outline-offset: 2px; }
 .settler-choice strong { font-family: var(--font-head); font-size: 0.98rem; font-weight: 600; }
 .settler-choice span {
   font-size: 0.78rem;

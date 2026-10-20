@@ -82,20 +82,17 @@
     });
 
     choicesEl.innerHTML = "";
-    options.forEach((option, i) => {
-      const label = document.createElement("label");
-      label.className = "settler-choice";
-      const input = document.createElement("input");
-      input.type = "radio";
-      input.name = "settlerCountry";
-      input.value = option.key;
-      input.checked = i === 0;
+    options.forEach((option) => {
+      const card = document.createElement("button");
+      card.type = "button";
+      card.className = "settler-choice";
+      card.dataset.key = option.key;
       const name = document.createElement("strong");
       name.textContent = displayName(option.key);
       const sub = document.createElement("span");
       sub.textContent = option.sub;
-      label.append(input, name, sub);
-      choicesEl.appendChild(label);
+      card.append(name, sub);
+      choicesEl.appendChild(card);
     });
   }
 
@@ -258,16 +255,22 @@
     render();
   });
 
-  const openFromResults = () => {
-    const selected = choicesEl.querySelector("input[name=settlerCountry]:checked");
-    if (!selected) return;
-    const key = selected.value;
+  const openFromResults = (key) => {
     open(key, {
       basis: planLabels[key] ? `Built for ${planLabels[key]}` : "Built from your answers",
       from: "results",
     });
   };
-  document.getElementById("btn-settler-card").addEventListener("click", openFromResults);
+  // Each country card opens its checklist directly; the Step 2 card opens the
+  // first one (the country your plans point to, when any do).
+  choicesEl.addEventListener("click", (e) => {
+    const card = e.target.closest(".settler-choice");
+    if (card) openFromResults(card.dataset.key);
+  });
+  document.getElementById("btn-settler-card").addEventListener("click", () => {
+    const first = choicesEl.querySelector(".settler-choice");
+    if (first) openFromResults(first.dataset.key);
+  });
 
   backLink.addEventListener("click", () => {
     window.BordersX.showScreen(returnTo);
