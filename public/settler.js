@@ -267,7 +267,6 @@
       from: "results",
     });
   };
-  document.getElementById("btn-settler").addEventListener("click", openFromResults);
   document.getElementById("btn-settler-card").addEventListener("click", openFromResults);
 
   backLink.addEventListener("click", () => {
