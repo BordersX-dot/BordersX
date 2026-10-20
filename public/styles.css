@@ -281,6 +281,45 @@ body:has(#screen-intro:not([hidden])) .topbar { display: none; }
   margin: 0 0 44px;
 }
 
+.resume-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 640px;
+  margin: -24px auto 28px;
+  background: var(--accent-teal-soft);
+  border: 1px solid var(--accent-teal);
+  border-radius: var(--radius-sm);
+  padding: 4px 6px 4px 4px;
+}
+.resume-banner[hidden] { display: none; }
+.resume-link {
+  flex: 1;
+  min-width: 0;
+  background: none;
+  border: none;
+  padding: 10px 12px;
+  font: inherit;
+  font-family: var(--font-head);
+  font-weight: 600;
+  color: var(--accent-teal);
+  text-align: left;
+  cursor: pointer;
+}
+.resume-link:hover { text-decoration: underline; }
+.resume-dismiss {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: var(--fg-muted);
+  cursor: pointer;
+}
+.resume-dismiss:hover { background: color-mix(in srgb, var(--accent-teal) 12%, transparent); color: var(--fg); }
+
 .mode-cards {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -895,6 +934,24 @@ button.settler-choice:focus-visible { outline: 2px solid var(--accent-teal); out
 .settler-check input { accent-color: var(--accent-teal); width: 18px; height: 18px; margin: 0; }
 .settler-step.is-done .settler-check { color: var(--accent-teal); }
 
+.save-card {
+  margin-top: 28px;
+  background: var(--accent-gold-soft);
+  border: 1px solid var(--accent-gold);
+  border-radius: var(--radius);
+  padding: 22px 24px;
+}
+.save-card h3 { font-size: 1.05rem; font-weight: 700; margin: 0 0 4px; }
+.save-card > p { color: var(--fg-mid); font-size: 0.92rem; margin: 0 0 14px; }
+.save-form { display: flex; gap: 10px; }
+.save-form[hidden] { display: none; }
+.save-form .text-input { flex: 1; min-width: 0; margin-top: 0; }
+.save-form .btn { flex-shrink: 0; }
+.save-card .save-status { margin: 0; font-weight: 600; font-size: 0.92rem; color: var(--accent-gold-ink); }
+.save-card .save-status:empty { display: none; }
+.save-form:not([hidden]) + .save-status { margin-top: 10px; }
+.save-card .save-status.is-error { color: var(--danger); }
+
 .affiliate-note { margin: 28px 0 0; font-size: 0.8rem; color: var(--fg-muted); }
 
 /* Disclaimer */
@@ -937,4 +994,6 @@ button.settler-choice:focus-visible { outline: 2px solid var(--accent-teal); out
   .mode-cards { grid-template-columns: 1fr; gap: 16px; }
   .mode-card { padding: 26px 22px 22px; }
   .settler-step { padding: 16px; }
+  .save-card { padding: 18px; }
+  .save-form { flex-direction: column; }
 }

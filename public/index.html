@@ -33,6 +33,11 @@
       </div>
       <p class="home-tagline">Your global mobility platform</p>
 
+      <div class="resume-banner" id="resume-banner" hidden>
+        <button type="button" class="resume-link" id="resume-link"></button>
+        <button type="button" class="resume-dismiss" id="resume-dismiss" aria-label="Dismiss">✕</button>
+      </div>
+
       <div class="mode-cards">
         <article class="mode-card mode-explorer">
           <div class="mode-icon" aria-hidden="true">
@@ -420,6 +425,16 @@
       </div>
 
       <div id="settler-phases"></div>
+
+      <div class="save-card" id="save-card" hidden>
+        <h3>Save your progress</h3>
+        <p>We’ll email you a link to continue on any device</p>
+        <form class="save-form" id="save-form">
+          <input type="email" class="text-input" id="save-email" placeholder="you@example.com" autocomplete="email" required aria-label="Email address" />
+          <button type="submit" class="btn btn-gold" id="save-submit">Send me the link</button>
+        </form>
+        <p class="save-status" id="save-status" role="status"></p>
+      </div>
 
       <p class="affiliate-note">Some links are partner links — BordersX may earn a commission at no extra cost to you.</p>
       <div class="disclaimer">

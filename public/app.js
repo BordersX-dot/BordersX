@@ -141,6 +141,7 @@
   function showScreen(name) {
     Object.values(screens).forEach((el) => (el.hidden = true));
     screens[name].hidden = false;
+    if (name === "intro") window.Settler?.refreshResumeBanner();
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 

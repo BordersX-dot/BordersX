@@ -6,11 +6,16 @@
   const { AFFILIATES, PHASES, COUNTRIES } = window.BX_SETTLER_DATA;
   const PASSIVE_INCOME_TYPES = ["Retired", "Unemployed", "Investment / passive income"];
   const STORAGE_PREFIX = "bx-settler:";
+  const PROGRESS_KEY = "bordersx_settler_progress";
+  const BANNER_DISMISSED_KEY = "bordersx_banner_dismissed";
+  const SAVE_HOOK_URL = "https://hooks.zapier.com/hooks/catch/29005760/41l1km7/";
+  const SAVE_CARD_MIN_DONE = 3;
 
   let ctx = null;
   let current = null; // { key, steps }
   let returnTo = "results"; // screen the checklist back-link goes to
   let planLabels = {}; // country key → "Plan B · <title>" for countries a plan named
+  let basisText = "";
 
   const choicesEl = document.getElementById("settler-choices");
   const pickerForm = document.getElementById("settler-picker-form");
@@ -18,6 +23,10 @@
   const backLink = document.getElementById("btn-settler-back");
   const phasesEl = document.getElementById("settler-phases");
   const moveDateInput = document.getElementById("settler-move-date");
+  const saveCard = document.getElementById("save-card");
+  const saveForm = document.getElementById("save-form");
+  const saveStatus = document.getElementById("save-status");
+  const resumeBanner = document.getElementById("resume-banner");
 
   // Done-state and move date are per-browser conveniences, so a blocked or
   // empty localStorage just means starting fresh.
@@ -35,6 +44,50 @@
       localStorage.setItem(STORAGE_PREFIX + key, JSON.stringify(data));
     } catch {
       // storage unavailable — progress just won't survive a reload
+    }
+  }
+
+  // The most recent checklist with progress, so the homepage can offer to resume it.
+  // ctx and basis are kept so the resumed checklist shows the same steps.
+  function saveProgress(completedItems) {
+    try {
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify({
+        country: current.key,
+        visaType: COUNTRIES[current.key].tagline,
+        completedItems,
+        savedAt: new Date().toISOString(),
+        ctx,
+        basis: basisText,
+      }));
+    } catch {
+      // storage unavailable — no resume banner
+    }
+  }
+
+  function loadProgress() {
+    try {
+      const progress = JSON.parse(localStorage.getItem(PROGRESS_KEY));
+      if (!COUNTRIES[progress?.country] || !progress.completedItems?.length) return null;
+      return progress;
+    } catch {
+      return null;
+    }
+  }
+
+  function bannerDismissed() {
+    try {
+      return sessionStorage.getItem(BANNER_DISMISSED_KEY) === "1";
+    } catch {
+      return false;
+    }
+  }
+
+  function refreshResumeBanner() {
+    const progress = loadProgress();
+    resumeBanner.hidden = !progress || bannerDismissed();
+    if (progress) {
+      document.getElementById("resume-link").textContent =
+        `Welcome back — continue your ${displayName(progress.country)} checklist →`;
     }
   }
 
@@ -120,12 +173,17 @@
       .filter((s) => !s.when || s.when(ctx))
       .map((s) => ({ ...s, title: resolve(s.title), body: resolve(s.body) }))
       .sort((a, b) => a.days - b.days);
+    if (current?.key !== key) resetSaveCard();
     current = { key, steps };
+    basisText = basis;
 
     document.getElementById("settler-title").textContent = `Your move to ${country.name}`;
     document.getElementById("settler-basis").textContent = basis;
     returnTo = from;
-    backLink.textContent = from === "results" ? "← Back to your results" : "← Change country or answers";
+    backLink.textContent = {
+      results: "← Back to your results",
+      settlerPicker: "← Change country or answers",
+    }[from] || "← Back";
     moveDateInput.value = loadSaved(key).moveDate;
 
     render();
@@ -220,6 +278,22 @@
     updateProgress();
   }
 
+  // The save card sits after the first fully ticked-off phase (or the first
+  // phase until one is), once enough steps are done to be worth keeping.
+  function placeSaveCard(complete) {
+    saveCard.hidden = complete < SAVE_CARD_MIN_DONE;
+    if (saveCard.hidden) return;
+    const sections = [...phasesEl.querySelectorAll(".settler-phase")];
+    const anchor = sections.find((s) => !s.querySelector("input[type=checkbox]:not(:checked)")) || sections[0];
+    if (anchor && anchor.nextElementSibling !== saveCard) anchor.after(saveCard);
+  }
+
+  function resetSaveCard() {
+    saveForm.hidden = false;
+    saveStatus.textContent = "";
+    saveStatus.classList.remove("is-error");
+  }
+
   function updateProgress() {
     const done = new Set(loadSaved(current.key).done);
     const total = current.steps.length;
@@ -235,6 +309,7 @@
       const checked = section.querySelectorAll("input[type=checkbox]:checked").length;
       section.querySelector(".settler-phase-count").textContent = `${checked}/${boxes.length}`;
     });
+    placeSaveCard(complete);
   }
 
   phasesEl.addEventListener("change", (e) => {
@@ -245,6 +320,7 @@
     if (box.checked) done.add(box.dataset.step);
     else done.delete(box.dataset.step);
     save(current.key, { ...saved, done: [...done] });
+    saveProgress([...done]);
     box.closest(".settler-step").classList.toggle("is-done", box.checked);
     box.nextElementSibling.textContent = box.checked ? "Done" : "Mark as done";
     updateProgress();
@@ -270,6 +346,55 @@
   document.getElementById("btn-settler-card").addEventListener("click", () => {
     const first = choicesEl.querySelector(".settler-choice");
     if (first) openFromResults(first.dataset.key);
+  });
+
+  saveForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const submit = document.getElementById("save-submit");
+    const done = new Set(loadSaved(current.key).done);
+    submit.disabled = true;
+    saveStatus.textContent = "";
+    saveStatus.classList.remove("is-error");
+    try {
+      // Sent as text/plain: Zapier parses the JSON body either way, and a
+      // simple request skips the CORS preflight its hooks don't answer.
+      const res = await fetch(SAVE_HOOK_URL, {
+        method: "POST",
+        body: JSON.stringify({
+          email: document.getElementById("save-email").value.trim(),
+          country: current.key,
+          visaType: COUNTRIES[current.key].tagline,
+          completedCount: current.steps.filter((s) => done.has(s.id)).length,
+          savedAt: new Date().toISOString(),
+        }),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      saveForm.hidden = true;
+      saveStatus.textContent = "Saved — check your inbox";
+    } catch {
+      saveStatus.textContent = "Something went wrong — try again";
+      saveStatus.classList.add("is-error");
+    } finally {
+      submit.disabled = false;
+    }
+  });
+
+  // ── Homepage resume banner ──
+
+  document.getElementById("resume-link").addEventListener("click", () => {
+    const progress = loadProgress();
+    if (!progress) return;
+    ctx = progress.ctx || {};
+    open(progress.country, { basis: progress.basis || "", from: "intro" });
+  });
+
+  document.getElementById("resume-dismiss").addEventListener("click", () => {
+    try {
+      sessionStorage.setItem(BANNER_DISMISSED_KEY, "1");
+    } catch {
+      // can't remember the dismissal — just hide it for now
+    }
+    resumeBanner.hidden = true;
   });
 
   backLink.addEventListener("click", () => {
@@ -336,6 +461,7 @@
   });
 
   renderPickerCountries();
+  refreshResumeBanner();
 
-  window.Settler = { setup };
+  window.Settler = { setup, refreshResumeBanner };
 })();
