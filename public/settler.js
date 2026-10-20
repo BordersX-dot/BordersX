@@ -258,7 +258,7 @@
     render();
   });
 
-  document.getElementById("btn-settler").addEventListener("click", () => {
+  const openFromResults = () => {
     const selected = choicesEl.querySelector("input[name=settlerCountry]:checked");
     if (!selected) return;
     const key = selected.value;
@@ -266,7 +266,9 @@
       basis: planLabels[key] ? `Built for ${planLabels[key]}` : "Built from your answers",
       from: "results",
     });
-  });
+  };
+  document.getElementById("btn-settler").addEventListener("click", openFromResults);
+  document.getElementById("btn-settler-card").addEventListener("click", openFromResults);
 
   backLink.addEventListener("click", () => {
     window.BordersX.showScreen(returnTo);

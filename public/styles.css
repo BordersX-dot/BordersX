@@ -695,6 +695,29 @@ body:has(#screen-settler:not([hidden])) .footer { display: none; }
   cursor: pointer;
 }
 .cta-secondary:hover { color: rgba(255,255,255,0.85); text-decoration: underline; }
+.next-steps {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+.next-step {
+  --step-accent: var(--accent-teal);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-top: 4px solid var(--step-accent);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 28px 30px;
+}
+.next-step-settler { --step-accent: var(--accent-gold); }
+.next-step h3 { font-size: 1.3rem; font-weight: 700; margin: 0 0 6px; text-wrap: balance; }
+.next-step p { color: var(--fg-mid); margin: 0 0 22px; }
+.next-step .btn { margin-top: auto; width: 100%; text-align: center; text-decoration: none; }
+.next-steps + .cta-secondary { margin: 20px auto 24px; color: var(--fg-muted); }
+.next-steps + .cta-secondary:hover { color: var(--fg); }
 
 /* ── SETTLER ── */
 .settler-cta {
@@ -904,6 +927,8 @@ body:has(#screen-settler:not([hidden])) .footer { display: none; }
   .plan-body { padding: 16px 18px; }
   .insight-box { padding: 18px; }
   .settler-cta { padding: 22px 18px; }
+  .next-steps { grid-template-columns: 1fr; gap: 16px; }
+  .next-step { padding: 22px 18px; }
   .shell:has(#screen-intro:not([hidden])) { padding-top: 40px; }
   .home-wordmark { font-size: 1.8rem; }
   .home-tagline { margin-bottom: 28px; }
