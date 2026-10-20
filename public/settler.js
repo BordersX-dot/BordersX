@@ -278,14 +278,17 @@
     updateProgress();
   }
 
-  // The save card sits after the first fully ticked-off phase (or the first
-  // phase until one is), once enough steps are done to be worth keeping.
-  function placeSaveCard(complete) {
+  // The save card appears once enough steps are done to be worth keeping,
+  // right after the phase the user just ticked in, so it lands where they're
+  // looking rather than at the top of a long checklist.
+  function placeSaveCard(complete, tickedBox) {
+    const wasHidden = saveCard.hidden;
     saveCard.hidden = complete < SAVE_CARD_MIN_DONE;
     if (saveCard.hidden) return;
-    const sections = [...phasesEl.querySelectorAll(".settler-phase")];
-    const anchor = sections.find((s) => !s.querySelector("input[type=checkbox]:not(:checked)")) || sections[0];
+    const anchor = tickedBox?.closest(".settler-phase")
+      || (phasesEl.contains(saveCard) ? null : phasesEl.querySelector(".settler-phase:last-of-type"));
     if (anchor && anchor.nextElementSibling !== saveCard) anchor.after(saveCard);
+    if (wasHidden && tickedBox) saveCard.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }
 
   function resetSaveCard() {
@@ -294,7 +297,7 @@
     saveStatus.classList.remove("is-error");
   }
 
-  function updateProgress() {
+  function updateProgress(tickedBox) {
     const done = new Set(loadSaved(current.key).done);
     const total = current.steps.length;
     const complete = current.steps.filter((s) => done.has(s.id)).length;
@@ -309,7 +312,7 @@
       const checked = section.querySelectorAll("input[type=checkbox]:checked").length;
       section.querySelector(".settler-phase-count").textContent = `${checked}/${boxes.length}`;
     });
-    placeSaveCard(complete);
+    placeSaveCard(complete, tickedBox);
   }
 
   phasesEl.addEventListener("change", (e) => {
@@ -323,7 +326,7 @@
     saveProgress([...done]);
     box.closest(".settler-step").classList.toggle("is-done", box.checked);
     box.nextElementSibling.textContent = box.checked ? "Done" : "Mark as done";
-    updateProgress();
+    updateProgress(box.checked ? box : null);
   });
 
   moveDateInput.addEventListener("change", () => {
