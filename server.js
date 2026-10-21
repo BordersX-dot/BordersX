@@ -31,6 +31,12 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json({ limit: "100kb" }));
 app.use(express.static(path.join(__dirname, "public")));
 
+// Direct link to the Settler module: same page as the homepage, and app.js
+// opens the Settler picker when it sees this path.
+app.get("/settler", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
 // Letters (incl. accented), spaces, hyphens, apostrophes — covers things
 // like "Bosnian-Herzegovinian" or "Côte d'Ivoire" adjectives.
 const NATIONALITY_TEXT_PATTERN = /^[\p{L}\s'-]+$/u;

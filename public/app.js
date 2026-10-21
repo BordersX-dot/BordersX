@@ -516,4 +516,5 @@
   }
 
   renderStep();
+  if (location.pathname.replace(/\/+$/, "") === "/settler") showScreen("settlerPicker");
 })();
