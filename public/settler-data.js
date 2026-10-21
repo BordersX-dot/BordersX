@@ -22,7 +22,7 @@
 
   // TODO: replace these placeholder URLs with tracked affiliate links.
   const AFFILIATES = {
-    wise: { label: "Open a Wise account", url: "https://wise.com/" },
+    wise: { label: "Open a Wise account", url: "https://wi.se/bordersx" },
     revolut: { label: "Open a Revolut account", url: "https://www.revolut.com/" },
     sim: { label: "Get an eSIM for arrival", url: "https://www.airalo.com/" },
     spotahome: { label: "Browse rentals on Spotahome", url: "https://www.spotahome.com/" },
@@ -307,6 +307,7 @@
           days: 45,
           title: "Open a UAE bank account",
           body: "Apply with your Emirates ID, tenancy contract and proof of income at a bank such as Emirates NBD, Mashreq or ADCB.",
+          links: ["wise"],
         },
         {
           id: "ae-licence",
@@ -424,6 +425,7 @@
           days: 30,
           title: "Apply for a Maltese bank account",
           body: "Banks such as Bank of Valletta, HSBC Malta or APS expect proof of address and source of funds. Expect it to take a few weeks.",
+          links: ["wise"],
         },
         {
           id: "mt-family",
@@ -522,6 +524,7 @@
           days: 7,
           title: "Open a Georgian bank account",
           body: "TBC Bank and Bank of Georgia can often open an account the same day with just your passport.",
+          links: ["wise"],
         },
         {
           id: "ge-utilities",
