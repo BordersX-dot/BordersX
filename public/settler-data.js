@@ -54,9 +54,9 @@
     links: ["taxAdvisor"],
   });
 
-  const schoolPlaces = (prefix, extra) => ({
+  const schoolPlaces = (prefix, extra, days = -90) => ({
     id: `${prefix}-school`,
-    days: -90,
+    days,
     when: (c) => c.family,
     title: "Secure school places",
     body: `International schools often have waiting lists — apply now and ask which documents (reports, vaccination records, translated birth certificates) they need. ${extra}`,
@@ -78,7 +78,7 @@
       steps: [
         {
           id: "pt-visa",
-          days: -120,
+          days: -90,
           when: (c) => !c.eu,
           title: (c) => (c.passive ? "Apply for your D7 (passive income) visa" : "Apply for your D8 (digital nomad) visa"),
           body: (c) =>
@@ -93,13 +93,13 @@
         },
         {
           id: "pt-nif",
-          days: -90,
+          days: -150,
           title: "Get your NIF (tax number)",
           body: "You need a NIF before you can open a bank account, sign a lease or set up utilities. You can get one before arrival through a fiscal representative or an online NIF service.",
         },
         {
           id: "pt-bank",
-          days: -75,
+          days: -135,
           title: "Open your bank accounts",
           body: (c) =>
             `Use a multi-currency account to move money at close to the mid-market rate, and open a Portuguese account once you have your NIF${c.eu ? "." : " — the visa application requires one."} For the Portuguese account we recommend ActivoBank: digital-first, low fees, and straightforward to open as a new resident.`,
@@ -131,7 +131,7 @@
         },
         {
           id: "pt-home",
-          days: -45,
+          days: -110,
           title: "Secure your accommodation",
           body: (c) =>
             `${c.eu ? "" : "Visa applications usually need a 12-month lease. "}A mid-term rental gives you time to view areas in person before committing to a long lease.`,
@@ -140,7 +140,7 @@
         homeExit("pt"),
         {
           id: "pt-health-cover",
-          days: -30,
+          days: -120,
           title: "Arrange health cover",
           body: (c) =>
             c.eu
@@ -149,12 +149,12 @@
         },
         {
           id: "pt-docs",
-          days: -21,
-          title: "Apostille and translate key documents",
+          days: -100,
+          title: "Get your criminal record certificate (apostilled)",
           body: (c) =>
             `Birth${c.family ? ", marriage and your children's birth" : ""} certificates and your criminal record certificate usually need an apostille, and sometimes a certified Portuguese translation.`,
         },
-        schoolPlaces("pt", "Public schools enrol through your local school cluster (agrupamento)."),
+        schoolPlaces("pt", "Public schools enrol through your local school cluster (agrupamento).", -85),
         arrivalSim("pt", "MEO, Vodafone or NOS"),
         {
           id: "pt-address",
@@ -377,7 +377,7 @@
         },
         {
           id: "mt-home",
-          days: -45,
+          days: -50,
           title: "Secure your accommodation",
           body: "Long lets must be registered with the Housing Authority by your landlord — ask for proof, as you'll need it for your residence application.",
         },
@@ -391,7 +391,7 @@
         },
         {
           id: "mt-health",
-          days: -30,
+          days: -60,
           title: "Arrange health cover",
           body: (c) =>
             c.eu
