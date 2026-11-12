@@ -1,5 +1,5 @@
 // Settler: personalised relocation checklist. Three ways in:
-//   - the landing profile form (nationality, destination, visa type, email)
+//   - the homepage Settler card → profile form (nationality, destination, visa type, email)
 //   - after an Explorer analysis — app.js calls Settler.setup() with the results
 //   - straight from the homepage — the picker screen asks for country + 3 quick answers
 // Content lives in settler-data.js.
@@ -466,7 +466,7 @@
     });
   });
 
-  // ── Landing profile: profile form → checklist ──
+  // ── Direct entry: homepage Settler card → profile form → checklist ──
 
   const VISA_LABELS = { D7: "D7 visa (passive income)", D8: "D8 visa (digital nomad)" };
   const profileForm = document.getElementById("profile-form");
@@ -564,12 +564,12 @@
     openFromProfile(profile);
   });
 
-  document.getElementById("btn-profile-explore").addEventListener("click", () => {
+  document.getElementById("btn-profile-back").addEventListener("click", () => {
     window.BordersX.showScreen("intro");
   });
 
-  // Called by app.js once screens are wired up: a saved profile skips
-  // straight to its checklist, otherwise the landing form shows.
+  // Entry to the Settler flow (homepage card or /settler): a saved profile
+  // skips straight to its checklist, otherwise the profile form shows.
   function start() {
     const profile = loadProfile();
     if (profile) {

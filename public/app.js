@@ -327,7 +327,7 @@
   });
 
   document.getElementById("btn-settler-mode").addEventListener("click", () => {
-    showScreen("settlerPicker");
+    window.Settler.start();
   });
   document.getElementById("btn-picker-back").addEventListener("click", () => {
     showScreen("intro");
@@ -517,5 +517,5 @@
   }
 
   renderStep();
-  window.Settler.start();
+  if (location.pathname.replace(/\/+$/, "") === "/settler") window.Settler.start();
 })();
