@@ -25,8 +25,56 @@
 
   <main class="shell">
 
+    <!-- PROFILE: landing screen, captured before the checklist -->
+    <section class="report" id="screen-profile" data-screen>
+      <header class="report-header">
+        <div class="eyebrow eyebrow-gold">Portugal visa monitoring</div>
+        <h1 class="report-title">BordersX monitors Portuguese visa rules 24/7 and alerts you personally when something changes that affects your move.</h1>
+        <p class="lede">Tell us about your move and we’ll open your personalised checklist.</p>
+      </header>
+
+      <form id="profile-form">
+        <fieldset class="picker-group">
+          <legend>Your nationality</legend>
+          <div class="pill-row">
+            <label class="pill"><input type="radio" name="profileNationality" value="British" required><span>British</span></label>
+            <label class="pill"><input type="radio" name="profileNationality" value="American"><span>American</span></label>
+            <label class="pill"><input type="radio" name="profileNationality" value="EU"><span>EU country</span></label>
+            <label class="pill"><input type="radio" name="profileNationality" value="Other"><span>Other</span></label>
+          </div>
+          <input type="text" id="profile-nationality-other" class="text-input" placeholder="Please specify your nationality" maxlength="100" aria-label="Your nationality" hidden />
+        </fieldset>
+
+        <fieldset class="picker-group">
+          <legend>Destination</legend>
+          <div class="pill-row">
+            <label class="pill"><input type="radio" name="profileDestination" value="portugal" checked required><span>Portugal</span></label>
+          </div>
+          <p class="field-hint">More countries coming soon.</p>
+        </fieldset>
+
+        <fieldset class="picker-group">
+          <legend>Visa type</legend>
+          <div class="pill-row">
+            <label class="pill"><input type="radio" name="profileVisa" value="D7" required><span>D7 · Passive income</span></label>
+            <label class="pill"><input type="radio" name="profileVisa" value="D8"><span>D8 · Digital nomad</span></label>
+          </div>
+        </fieldset>
+
+        <fieldset class="picker-group">
+          <legend>Email for your alerts</legend>
+          <input type="email" id="profile-email" class="text-input text-input-lg" placeholder="you@example.com" autocomplete="email" required aria-label="Email address" />
+        </fieldset>
+
+        <button type="submit" class="btn btn-gold" id="btn-profile-submit" disabled>Open my checklist →</button>
+        <p class="fine-print">We’ll only email you about rule changes that affect your move. No spam.</p>
+      </form>
+
+      <button type="button" class="cta-secondary" id="btn-profile-explore">Not set on Portugal? Explore other countries</button>
+    </section>
+
     <!-- HOME: choose a mode -->
-    <section class="home" id="screen-intro" data-screen>
+    <section class="home" id="screen-intro" data-screen hidden>
       <div class="home-brand">
         <span class="logo-mark logo-mark-lg">X</span>
         <span class="home-wordmark">Borders<strong>X</strong></span>

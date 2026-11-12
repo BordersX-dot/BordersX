@@ -31,8 +31,8 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json({ limit: "100kb" }));
 app.use(express.static(path.join(__dirname, "public")));
 
-// Direct link to the Settler module: same page as the homepage, and app.js
-// opens the Settler picker when it sees this path.
+// Direct link to the Settler module: same page as the homepage, which opens
+// on the profile form (or the saved checklist for a returning visitor).
 app.get("/settler", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });

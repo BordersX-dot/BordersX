@@ -757,6 +757,9 @@ body:has(#screen-settler:not([hidden])) .footer { display: none; }
 .next-step .btn { margin-top: auto; width: 100%; text-align: center; text-decoration: none; }
 .next-steps + .cta-secondary { margin: 20px auto 24px; color: var(--fg-muted); }
 .next-steps + .cta-secondary:hover { color: var(--fg); }
+#profile-form + .cta-secondary { margin: 28px 0 0; padding: 4px 0; color: var(--fg-muted); }
+#profile-form + .cta-secondary:hover { color: var(--fg); }
+#profile-nationality-other { margin-top: 12px; }
 
 /* ── SETTLER ── */
 .settler-cta {

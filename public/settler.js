@@ -1,4 +1,5 @@
-// Settler: personalised relocation checklist. Two ways in:
+// Settler: personalised relocation checklist. Three ways in:
+//   - the landing profile form (nationality, destination, visa type, email)
 //   - after an Explorer analysis — app.js calls Settler.setup() with the results
 //   - straight from the homepage — the picker screen asks for country + 3 quick answers
 // Content lives in settler-data.js.
@@ -8,6 +9,7 @@
   const STORAGE_PREFIX = "bx-settler:";
   const PROGRESS_KEY = "bordersx_settler_progress";
   const BANNER_DISMISSED_KEY = "bordersx_banner_dismissed";
+  const PROFILE_KEY = "bordersx_profile";
   const SAVE_HOOK_URL = "https://hooks.zapier.com/hooks/catch/29005760/41l1km7/";
   const SAVE_CARD_MIN_DONE = 3;
 
@@ -183,6 +185,7 @@
     backLink.textContent = {
       results: "← Back to your results",
       settlerPicker: "← Change country or answers",
+      profile: "← Edit your profile",
     }[from] || "← Back";
     moveDateInput.value = loadSaved(key).moveDate;
 
@@ -463,8 +466,122 @@
     });
   });
 
+  // ── Landing profile: profile form → checklist ──
+
+  const VISA_LABELS = { D7: "D7 visa (passive income)", D8: "D8 visa (digital nomad)" };
+  const profileForm = document.getElementById("profile-form");
+  const profileSubmit = document.getElementById("btn-profile-submit");
+  const nationalityOther = document.getElementById("profile-nationality-other");
+  const profileEmail = document.getElementById("profile-email");
+
+  // Kept in localStorage for now, so a returning visitor goes straight back
+  // to their checklist; a blocked storage just means asking again.
+  function loadProfile() {
+    try {
+      const profile = JSON.parse(localStorage.getItem(PROFILE_KEY));
+      return COUNTRIES[profile?.destination] && VISA_LABELS[profile.visaType] ? profile : null;
+    } catch {
+      return null;
+    }
+  }
+
+  function storeProfile(profile) {
+    try {
+      localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
+    } catch {
+      // storage unavailable — the profile lasts for this visit only
+    }
+  }
+
+  function profileValues() {
+    const data = new FormData(profileForm);
+    const choice = data.get("profileNationality");
+    return {
+      nationality: choice === "Other" ? nationalityOther.value.trim() : choice,
+      destination: data.get("profileDestination"),
+      visaType: data.get("profileVisa"),
+      email: profileEmail.value.trim(),
+    };
+  }
+
+  function openFromProfile(profile) {
+    ctx = {
+      eu: profile.nationality === "EU",
+      british: profile.nationality === "British",
+      american: profile.nationality === "American",
+      family: false,
+      passive: profile.visaType === "D7",
+    };
+    document.getElementById("save-email").value = profile.email;
+    open(profile.destination, {
+      basis: `${profile.nationality} passport · ${VISA_LABELS[profile.visaType]}`,
+      from: "profile",
+    });
+  }
+
+  function fillProfileForm(profile) {
+    const preset = ["British", "American", "EU"].includes(profile.nationality);
+    const choice = preset ? profile.nationality : "Other";
+    profileForm.querySelector(`input[name=profileNationality][value="${choice}"]`).checked = true;
+    nationalityOther.hidden = preset;
+    nationalityOther.value = preset ? "" : profile.nationality;
+    const visa = profileForm.querySelector(`input[name=profileVisa][value="${profile.visaType}"]`);
+    if (visa) visa.checked = true;
+    profileEmail.value = profile.email || "";
+    profileSubmit.disabled = false;
+  }
+
+  function updateProfileForm() {
+    const otherChosen = new FormData(profileForm).get("profileNationality") === "Other";
+    nationalityOther.hidden = !otherChosen;
+    nationalityOther.required = otherChosen;
+    const v = profileValues();
+    profileSubmit.disabled = !(v.nationality && v.destination && v.visaType && profileEmail.validity.valid && v.email);
+  }
+
+  profileForm.addEventListener("input", updateProfileForm);
+  profileForm.addEventListener("change", updateProfileForm);
+
+  profileForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (!profileForm.reportValidity()) return;
+    const profile = { ...profileValues(), savedAt: new Date().toISOString() };
+    storeProfile(profile);
+    // Fire-and-forget: the checklist opens whether or not Zapier answers.
+    // text/plain for the same no-preflight reason as the save form above.
+    fetch(SAVE_HOOK_URL, {
+      method: "POST",
+      keepalive: true,
+      body: JSON.stringify({
+        event: "profile_created",
+        email: profile.email,
+        nationality: profile.nationality,
+        country: profile.destination,
+        visaType: profile.visaType,
+        savedAt: profile.savedAt,
+      }),
+    }).catch(() => {});
+    openFromProfile(profile);
+  });
+
+  document.getElementById("btn-profile-explore").addEventListener("click", () => {
+    window.BordersX.showScreen("intro");
+  });
+
+  // Called by app.js once screens are wired up: a saved profile skips
+  // straight to its checklist, otherwise the landing form shows.
+  function start() {
+    const profile = loadProfile();
+    if (profile) {
+      fillProfileForm(profile);
+      openFromProfile(profile);
+    } else {
+      window.BordersX.showScreen("profile");
+    }
+  }
+
   renderPickerCountries();
   refreshResumeBanner();
 
-  window.Settler = { setup, refreshResumeBanner };
+  window.Settler = { setup, refreshResumeBanner, start };
 })();

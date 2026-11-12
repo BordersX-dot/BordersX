@@ -128,6 +128,7 @@
   }
 
   const screens = {
+    profile: document.getElementById("screen-profile"),
     intro: document.getElementById("screen-intro"),
     quiz: document.getElementById("screen-quiz"),
     email: document.getElementById("screen-email"),
@@ -516,5 +517,5 @@
   }
 
   renderStep();
-  if (location.pathname.replace(/\/+$/, "") === "/settler") showScreen("settlerPicker");
+  window.Settler.start();
 })();
