@@ -1,0 +1,4 @@
+[
+  "subscriber@example.com",
+  { "email": "another@example.com" }
+]

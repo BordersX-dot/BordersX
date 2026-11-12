@@ -3,3 +3,7 @@ node_modules/
 *.log
 .DS_Store
 leads.json
+
+# Visa monitor (monitor.js)
+snapshots/
+alert-recipients.json
