@@ -1,6 +1,11 @@
 (() => {
   const ALL_QUESTION_INDICES = [0, 1, 2, 3, 4, 5, 6, 7];
   const ANCESTRY_QUESTION_INDEX = 5;
+  // Explorer is Portugal-only for now, so the destination question is skipped
+  // and every analysis is sent as Portugal. Its markup stays in index.html for
+  // when more destinations launch.
+  const DESTINATION_QUESTION_INDEX = 4;
+  const DESTINATION = "Portugal";
 
   // Keep this list identical to EU_NATIONALITY_KEYWORDS in server.js —
   // the two have drifted out of sync before and caused a currency bug.
@@ -104,7 +109,7 @@
       incomeType: "",
       incomeLevel: "",
       goal: "",
-      destinationCountry: "",
+      destinationCountry: DESTINATION,
       destinationCountryOther: "",
       europeanAncestry: "",
       europeanAncestryDetail: "",
@@ -122,9 +127,9 @@
   // EU nationals already hold an EU passport, so the "European ancestry"
   // question is redundant for them — skip it from the visible flow.
   function visibleStepIndices() {
-    return isEuNational()
-      ? ALL_QUESTION_INDICES.filter((i) => i !== ANCESTRY_QUESTION_INDEX)
-      : ALL_QUESTION_INDICES;
+    return ALL_QUESTION_INDICES.filter(
+      (i) => i !== DESTINATION_QUESTION_INDEX && !(isEuNational() && i === ANCESTRY_QUESTION_INDEX)
+    );
   }
 
   const screens = {
@@ -355,7 +360,7 @@
     state.step = 0;
     state.answers = {
       nationality: "", nationalityOther: "", incomeType: "", incomeLevel: "",
-      goal: "", destinationCountry: "", destinationCountryOther: "",
+      goal: "", destinationCountry: DESTINATION, destinationCountryOther: "",
       europeanAncestry: "", europeanAncestryDetail: "", dependants: "", timeline: "",
     };
     state.email = "";

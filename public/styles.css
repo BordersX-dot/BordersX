@@ -275,10 +275,18 @@ body:has(#screen-intro:not([hidden])) .topbar { display: none; }
 .logo-mark-lg { width: 48px; height: 48px; border-radius: 12px; font-size: 1.4rem; }
 .home-wordmark { font-family: var(--font-head); font-size: 2.2rem; font-weight: 600; letter-spacing: -0.01em; }
 .home-wordmark strong { color: var(--accent-gold); font-weight: 700; }
+.home-headline {
+  max-width: 760px;
+  margin: 8px auto 14px;
+  font-size: 2rem;
+  line-height: 1.25;
+}
 .home-tagline {
-  font-size: 1.15rem;
+  max-width: 620px;
+  margin: 0 auto 44px;
+  font-size: 1.05rem;
+  line-height: 1.6;
   color: var(--fg-mid);
-  margin: 0 0 44px;
 }
 
 .resume-banner {
@@ -991,6 +999,7 @@ button.settler-choice:focus-visible { outline: 2px solid var(--accent-teal); out
   .next-step { padding: 22px 18px; }
   .shell:has(#screen-intro:not([hidden])) { padding-top: 40px; }
   .home-wordmark { font-size: 1.8rem; }
+  .home-headline { font-size: 1.5rem; }
   .home-tagline { margin-bottom: 28px; }
   .mode-cards { grid-template-columns: 1fr; gap: 16px; }
   .mode-card { padding: 26px 22px 22px; }

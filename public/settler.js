@@ -132,9 +132,11 @@
         options.push({ key, sub: planLabels[key] });
       }
     });
-    Object.keys(COUNTRIES).forEach((key) => {
-      if (!options.some((o) => o.key === key)) options.push({ key, sub: COUNTRIES[key].tagline });
-    });
+    // Settler is Portugal-only for now: offer just Portugal, labelled with the
+    // plan that named it when one did.
+    const portugal = options.find((o) => o.key === "portugal") || { key: "portugal", sub: COUNTRIES.portugal.tagline };
+    options.length = 0;
+    options.push(portugal);
 
     choicesEl.innerHTML = "";
     options.forEach((option) => {
