@@ -1,6 +1,7 @@
 // Daily intelligence monitor: snapshots Portuguese immigration sources, diffs
 // them against the previous snapshot, asks Claude whether anything changed
-// that matters to D7/D8 applicants, and emails the summary to subscribers.
+// that matters to D7/D8 applicants, and emails the summary to the subscribers
+// listed in a Google Sheet.
 //
 // Run: npm run monitor   (DRY_RUN=1 prints the email instead of sending it)
 // Scheduled on Railway as a separate cron service — see railway.monitor.json.
@@ -12,6 +13,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath, pathToFileURL } from "url";
 import Anthropic from "@anthropic-ai/sdk";
+import { GoogleAuth } from "google-auth-library";
 import nodemailer from "nodemailer";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -20,7 +22,6 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // own filesystem is wiped between cron runs, which would lose every snapshot.
 const DATA_DIR = process.env.MONITOR_DATA_DIR || __dirname;
 const SNAPSHOT_DIR = path.join(DATA_DIR, "snapshots");
-const RECIPIENTS_PATH = process.env.ALERT_RECIPIENTS_FILE || path.join(DATA_DIR, "alert-recipients.json");
 const DRY_RUN = process.env.DRY_RUN === "1";
 
 const USER_AGENT = "BordersXMonitor/1.0 (+https://www.bordersx.com)";
@@ -184,13 +185,42 @@ async function summariseChanges(anthropic, changed) {
 
 // ── Email ──
 
-function loadRecipients() {
-  if (!fs.existsSync(RECIPIENTS_PATH)) throw new Error(`Recipients file not found: ${RECIPIENTS_PATH}`);
-  const list = JSON.parse(fs.readFileSync(RECIPIENTS_PATH, "utf8"));
-  if (!Array.isArray(list)) throw new Error(`${RECIPIENTS_PATH} must contain a JSON array`);
-  // Accepts ["a@b.com", ...] or [{ "email": "a@b.com", ... }, ...]
-  const emails = list.map((r) => (typeof r === "string" ? r : r?.email)).map((e) => e?.trim()).filter(Boolean);
+// ── Recipients (Google Sheet) ──
+
+// The sheet is private: GOOGLE_SERVICE_ACCOUNT_JSON holds a service account
+// key, and the sheet is shared (Viewer) with that account's client_email.
+// GOOGLE_SHEET_RANGE picks the tab, e.g. "Subscribers"; by default the first tab.
+async function fetchSheetRows() {
+  for (const name of ["GOOGLE_SHEET_ID", "GOOGLE_SERVICE_ACCOUNT_JSON"]) {
+    if (!process.env[name]) throw new Error(`${name} is not set`);
+  }
+  const auth = new GoogleAuth({
+    credentials: JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_JSON),
+    scopes: ["https://www.googleapis.com/auth/spreadsheets.readonly"],
+  });
+  const client = await auth.getClient();
+  const range = encodeURIComponent(process.env.GOOGLE_SHEET_RANGE || "A:Z");
+  const res = await client.request({
+    url: `https://sheets.googleapis.com/v4/spreadsheets/${process.env.GOOGLE_SHEET_ID}/values/${range}`,
+  });
+  return res.data.values || [];
+}
+
+// First row is the header; the email column is found by name ("email",
+// "Email", "E-mail" …) so the column order in the sheet doesn't matter.
+function parseRecipients(rows) {
+  const [header = [], ...data] = rows;
+  const normalise = (h) => String(h).toLowerCase().replace(/[^a-z]/g, "");
+  const emailCol = header.findIndex((h) => normalise(h) === "email");
+  if (emailCol === -1) throw new Error(`No "email" column in the sheet header: ${JSON.stringify(header)}`);
+  const emails = data
+    .map((row) => String(row[emailCol] ?? "").trim().toLowerCase())
+    .filter((e) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e));
   return [...new Set(emails)];
+}
+
+async function loadRecipients() {
+  return parseRecipients(await fetchSheetRows());
 }
 
 const escapeHtml = (s) =>
@@ -220,6 +250,10 @@ function buildEmail(summary) {
 }
 
 async function sendAlerts(email, recipients) {
+  if (recipients.length === 0) {
+    log("No recipients in the alert sheet — nothing to send");
+    return;
+  }
   if (DRY_RUN) {
     log(`DRY_RUN — would email ${recipients.length} recipient(s):\n\nSubject: ${email.subject}\n\n${email.text}`);
     return;
@@ -254,6 +288,11 @@ async function main() {
   const fetched = []; // snapshots to save once the run has succeeded
   const changed = [];
   const problems = [];
+
+  // Loaded up front so a broken sheet connection fails the run on day one,
+  // not on the first day there's an alert to send.
+  const recipients = await loadRecipients();
+  log(`${recipients.length} recipient(s) in the alert sheet`);
 
   for (const source of SOURCES) {
     let text;
@@ -293,7 +332,7 @@ async function main() {
       log("Changes found, but none relevant to D7/D8 applicants — no email sent");
     } else {
       log(`${summary.changes.length} relevant change(s): ${summary.subject}`);
-      await sendAlerts(buildEmail(summary), loadRecipients());
+      await sendAlerts(buildEmail(summary), recipients);
     }
   }
 
@@ -302,7 +341,7 @@ async function main() {
   if (fetched.length === 0) throw new Error("No source could be fetched");
 }
 
-export { htmlToText, fetchText, diffLines, SOURCES };
+export { htmlToText, fetchText, diffLines, parseRecipients, SOURCES };
 
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   main().catch((err) => {
