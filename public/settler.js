@@ -545,15 +545,24 @@
   profileForm.addEventListener("submit", (e) => {
     e.preventDefault();
     if (!profileForm.reportValidity()) return;
+    const previous = loadProfile();
     const profile = { ...profileValues(), savedAt: new Date().toISOString() };
+    const unchanged = previous
+      && ["nationality", "destination", "visaType", "email"].every((k) => previous[k] === profile[k]);
+    if (unchanged) {
+      openFromProfile(previous);
+      return;
+    }
     storeProfile(profile);
     // Fire-and-forget: the checklist opens whether or not Zapier answers.
     // text/plain for the same no-preflight reason as the save form above.
+    // Only new or edited profiles are sent, so a returning visitor who just
+    // confirms their answers doesn't trigger another signup.
     fetch(SAVE_HOOK_URL, {
       method: "POST",
       keepalive: true,
       body: JSON.stringify({
-        event: "profile_created",
+        event: previous ? "profile_updated" : "profile_created",
         email: profile.email,
         nationality: profile.nationality,
         country: profile.destination,
@@ -568,16 +577,12 @@
     window.BordersX.showScreen("intro");
   });
 
-  // Entry to the Settler flow (homepage card or /settler): a saved profile
-  // skips straight to its checklist, otherwise the profile form shows.
+  // Entry to the Settler flow (homepage card or /settler): the profile form
+  // always shows first, prefilled for a returning visitor.
   function start() {
     const profile = loadProfile();
-    if (profile) {
-      fillProfileForm(profile);
-      openFromProfile(profile);
-    } else {
-      window.BordersX.showScreen("profile");
-    }
+    if (profile) fillProfileForm(profile);
+    window.BordersX.showScreen("profile");
   }
 
   renderPickerCountries();
