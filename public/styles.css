@@ -33,7 +33,35 @@
   --font-body:        "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
-/* Always dark — deliberate brand choice, no light mode override */
+@media (prefers-color-scheme: light) {
+  :root {
+    color-scheme: light;
+    --bg:               #FAFAF9;
+    --bg-2:             #F4F3F0;
+    --bg-3:             #EDECEA;
+    --fg:               #0C0C0B;
+    --fg-mid:           #55524E;
+    --fg-muted:         #A09D99;
+    --card-bg:          #FFFFFF;
+    --card-sunken:      #F4F3F0;
+    --border:           #E4E2DE;
+    --accent-teal:      #2B4FE8;
+    --accent-teal-hover:#3D5FF0;
+    --accent-teal-soft: rgba(43,79,232,0.08);
+    --accent-gold:      #C9910A;
+    --accent-gold-hover:#D9A420;
+    --accent-gold-soft: rgba(201,145,10,0.08);
+    --accent-gold-ink:  #9A6E00;
+    --plan-b:           #2B4FE8;
+    --plan-b-soft:      rgba(43,79,232,0.08);
+    --danger:           #D63031;
+    --brand-navy:       #0C0C0B;
+    --brand-navy-2:     #1A1917;
+    --on-brand:         #F0EDE8;
+    --on-brand-mid:     rgba(240,237,232,0.7);
+    --shadow:           0 1px 2px rgba(0,0,0,0.06), 0 8px 24px -8px rgba(0,0,0,0.12);
+  }
+}
 
 /* ── Reset ─────────────────────────────────────────────────────────────────── */
 
