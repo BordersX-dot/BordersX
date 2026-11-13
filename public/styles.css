@@ -1231,4 +1231,3 @@ button.settler-choice:focus-visible { outline: 2px solid var(--accent-teal); out
   .hero-live-dot { animation: none; }
   * { transition: none !important; }
 }
-</style>

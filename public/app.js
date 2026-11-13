@@ -229,9 +229,9 @@
 
   document.getElementById("btn-start").addEventListener("click", () => {
     state.step = 0;
+    showScreen("quiz");
     renderIncomeOptions();
     renderStep();
-    showScreen("quiz");
   });
 
   quizForm.addEventListener("change", (e) => {
@@ -336,9 +336,9 @@
   });
   document.getElementById("btn-start-2").addEventListener("click", () => {
     state.step = 0;
+    showScreen("quiz");
     renderIncomeOptions();
     renderStep();
-    showScreen("quiz");
   });
   document.getElementById("btn-settler-mode-hero").addEventListener("click", () => {
     window.Settler.start();
