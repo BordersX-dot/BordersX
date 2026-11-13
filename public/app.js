@@ -334,6 +334,15 @@
   document.getElementById("btn-settler-mode").addEventListener("click", () => {
     window.Settler.start();
   });
+  document.getElementById("btn-start-2").addEventListener("click", () => {
+    state.step = 0;
+    renderIncomeOptions();
+    renderStep();
+    showScreen("quiz");
+  });
+  document.getElementById("btn-settler-mode-hero").addEventListener("click", () => {
+    window.Settler.start();
+  });
   document.getElementById("btn-picker-back").addEventListener("click", () => {
     showScreen("intro");
   });

@@ -7,7 +7,7 @@
   <title>BordersX — Your global mobility platform</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@500;600;700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" />
   <link rel="stylesheet" href="/styles.css" />
 </head>
 <body>
@@ -74,50 +74,127 @@
 
     <!-- HOME: choose a mode -->
     <section class="home" id="screen-intro" data-screen>
-      <div class="home-brand">
-        <span class="logo-mark logo-mark-lg">X</span>
-        <span class="home-wordmark">Borders<strong>X</strong></span>
-      </div>
-      <h1 class="home-headline">BordersX monitors Portuguese visa rules 24/7 and alerts you personally when something changes that affects your move.</h1>
-      <p class="home-tagline">Every day we check official Portuguese sources — the AIMA immigration agency, Parliament and the tax authority — for changes to D7 and D8 rules, then tell you in plain English what changed and what to do about it.</p>
 
+      <!-- Resume banner (shown when a previous session exists) -->
       <div class="resume-banner" id="resume-banner" hidden>
         <button type="button" class="resume-link" id="resume-link"></button>
         <button type="button" class="resume-dismiss" id="resume-dismiss" aria-label="Dismiss">✕</button>
       </div>
 
-      <div class="mode-cards">
-        <article class="mode-card mode-explorer">
-          <div class="mode-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="9.5" />
-              <polygon points="15.8 8.2 13.6 13.6 8.2 15.8 10.4 10.4 15.8 8.2" />
-            </svg>
+      <!-- Hero -->
+      <div class="home-hero">
+        <div class="hero-left">
+          <div class="hero-tag">
+            <span class="hero-live-dot"></span>
+            LIVE INTELLIGENCE
           </div>
+          <h1 class="home-headline">Your edge on<br>Portuguese immigration</h1>
+          <p class="home-tagline">BordersX monitors official Portuguese sources 24/7 — AIMA, Parliament, the tax authority — and alerts you personally the moment a rule changes that affects your move.</p>
+          <div class="hero-actions">
+            <button type="button" class="hero-btn-primary" id="btn-start">
+              Find my visa route
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7h10M8 3l4 4-4 4"/></svg>
+            </button>
+            <button type="button" class="hero-btn-ghost" id="btn-settler-mode-hero">I’m already moving →</button>
+          </div>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="hero-stat-label">SOURCES MONITORED</div>
+            <div class="hero-stat-value is-accent">12 official sources</div>
+            <div class="hero-stat-meta">AIMA, Parlamento, AT, SEF archive &amp; more</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-label">VISAS COVERED</div>
+            <div class="hero-stat-value">D7 · D8 · NHR</div>
+            <div class="hero-stat-meta">Passive income, digital nomad, tax residency</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-label">LAST CHECKED</div>
+            <div class="hero-stat-value" id="hero-last-checked">Today</div>
+            <div class="hero-stat-meta">Rules checked every 24 h</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Intel band -->
+      <div class="intel-band">
+        <div class="intel-band-inner">
+          <div class="intel-item">
+            <div>
+              <div class="intel-name">AIMA Portal</div>
+              <div class="intel-org">aima.gov.pt</div>
+            </div>
+            <span class="intel-pill live">LIVE</span>
+          </div>
+          <div class="intel-item">
+            <div>
+              <div class="intel-name">Parlamento</div>
+              <div class="intel-org">parlamento.pt</div>
+            </div>
+            <span class="intel-pill live">LIVE</span>
+          </div>
+          <div class="intel-item">
+            <div>
+              <div class="intel-name">Autoridade Tributária</div>
+              <div class="intel-org">portaldasfinancas.gov.pt</div>
+            </div>
+            <span class="intel-pill watching">WATCHING</span>
+          </div>
+          <div class="intel-item">
+            <div>
+              <div class="intel-name">Diário da República</div>
+              <div class="intel-org">dre.pt</div>
+            </div>
+            <span class="intel-pill watching">WATCHING</span>
+          </div>
+          <div class="intel-item">
+            <div>
+              <div class="intel-name">IRN</div>
+              <div class="intel-org">irn.mj.pt</div>
+            </div>
+            <span class="intel-pill watching">WATCHING</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Paths -->
+      <div class="home-paths">
+        <article class="mode-card mode-explorer">
+          <div class="mode-index">01 — QUALIFY</div>
           <h2 class="mode-title">Explorer</h2>
           <p class="mode-subtitle">Find your route to Portugal</p>
-          <p class="mode-desc">Tell us your situation and we’ll build you a personalised Portugal strategy — the right visa, timelines, costs and first steps.</p>
-          <button type="button" class="btn btn-primary" id="btn-start">Start my analysis →</button>
+          <p class="mode-desc">Tell us your situation and we’ll build you a personalised Portugal strategy — the right visa, timeline, costs and first steps.</p>
+          <button type="button" class="btn btn-primary" id="btn-start-2">Start my analysis</button>
           <div class="mode-meta">7 questions · ~2 minutes</div>
         </article>
 
         <article class="mode-card mode-settler">
-          <div class="mode-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="4.5" y="3.5" width="15" height="18" rx="2" />
-              <path d="M9 3.5h6v2.5H9z" />
-              <path d="M8 11l1.5 1.5L12 10" />
-              <path d="M8 16.5l1.5 1.5L12 15.5" />
-              <path d="M14 11.5h2.5M14 17h2.5" />
-            </svg>
-          </div>
+          <div class="mode-index">02 — PLAN</div>
           <h2 class="mode-title">Settler</h2>
           <p class="mode-subtitle">I’m moving to Portugal</p>
           <p class="mode-desc">Get a step-by-step relocation checklist with deadlines, banking setup, accommodation and tax registration.</p>
-          <button type="button" class="btn btn-gold" id="btn-settler-mode">Get my checklist →</button>
-          <div class="mode-meta">Portugal</div>
+          <button type="button" class="btn btn-gold" id="btn-settler-mode">Get my checklist</button>
+          <div class="mode-meta">Portugal · D7 &amp; D8</div>
         </article>
       </div>
+
+      <!-- AIMA tracker strip -->
+      <div class="aima-strip">
+        <div>
+          <div class="aima-strip-eyebrow">NEW — FREE TOOL</div>
+          <h3 class="aima-strip-title">AIMA appointment tracker</h3>
+          <p class="aima-strip-desc">Enter your process reference and we’ll email you the moment your AIMA appointment status changes — no more daily manual checking.</p>
+        </div>
+        <a href="/aima" class="btn btn-ghost">Track my appointment →</a>
+      </div>
+
+      <!-- Footer row -->
+      <div class="home-footer-row">
+        <div class="home-footer-copy">© 2025 BordersX</div>
+        <div class="home-footer-disclaimer">Not legal advice. Always verify with an authorised immigration lawyer before making decisions about your visa.</div>
+      </div>
+
     </section>
 
     <!-- SETTLER PICKER (multi-country). Unlinked while the Settler flow is
