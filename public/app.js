@@ -148,12 +148,7 @@
     Object.values(screens).forEach((el) => (el.hidden = true));
     screens[name].hidden = false;
     if (name === "intro") window.Settler?.refreshResumeBanner();
-    // Use requestAnimationFrame so the browser has painted the hidden/shown
-    // state before we scroll — otherwise the page height hasn't updated yet
-    requestAnimationFrame(() => {
-      document.documentElement.scrollTop = 0;
-      document.body.scrollTop = 0;
-    });
+    screens[name].scrollIntoView({ block: "start", behavior: "instant" });
   }
 
   // Lets settler.js switch screens without owning the screen list.
