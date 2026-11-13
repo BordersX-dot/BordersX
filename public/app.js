@@ -228,10 +228,7 @@
   }
 
   document.getElementById("btn-start").addEventListener("click", () => {
-    state.step = 0;
-    showScreen("quiz");
-    renderIncomeOptions();
-    renderStep();
+    window.location.href = "/?quiz=1";
   });
 
   quizForm.addEventListener("change", (e) => {
@@ -335,10 +332,7 @@
     window.Settler.start();
   });
   document.getElementById("btn-start-2").addEventListener("click", () => {
-    state.step = 0;
-    showScreen("quiz");
-    renderIncomeOptions();
-    renderStep();
+    window.location.href = "/?quiz=1";
   });
   document.getElementById("btn-settler-mode-hero").addEventListener("click", () => {
     window.Settler.start();
@@ -532,4 +526,13 @@
 
   renderStep();
   if (location.pathname.replace(/\/+$/, "") === "/settler") window.Settler.start();
+
+  // Auto-start quiz when arriving via /?quiz=1 (from homepage CTA)
+  if (new URLSearchParams(location.search).get("quiz") === "1") {
+    history.replaceState(null, "", "/");
+    state.step = 0;
+    renderIncomeOptions();
+    renderStep();
+    showScreen("quiz");
+  }
 })();
