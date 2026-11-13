@@ -37,6 +37,86 @@ app.get("/settler", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
+// AIMA Appointment Tracker page
+app.get("/aima", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "aima.html"));
+});
+
+// AIMA signup endpoint — saves subscriber to /data/aima-subscribers.json
+const AIMA_SUBSCRIBERS_PATH = process.env.DATA_DIR
+  ? path.join(process.env.DATA_DIR, "aima-subscribers.json")
+  : path.join(__dirname, "data", "aima-subscribers.json");
+
+function readAimaSubscribers() {
+  try {
+    const raw = fs.readFileSync(AIMA_SUBSCRIBERS_PATH, "utf-8");
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveAimaSubscriber(subscriber) {
+  const dir = path.dirname(AIMA_SUBSCRIBERS_PATH);
+  fs.mkdirSync(dir, { recursive: true });
+  const subs = readAimaSubscribers();
+  // Deduplicate by processNumber + email
+  const exists = subs.some(
+    (s) => s.processNumber === subscriber.processNumber && s.email === subscriber.email
+  );
+  if (!exists) {
+    subs.push(subscriber);
+    fs.writeFileSync(AIMA_SUBSCRIBERS_PATH, JSON.stringify(subs, null, 2));
+  }
+}
+
+const AimaSignupSchema = z.object({
+  processNumber: z
+    .string()
+    .min(3, "Process number is too short")
+    .max(50, "Process number is too long")
+    .regex(/^[a-zA-Z0-9/\-_.]+$/, "Process number contains invalid characters"),
+  email: z.string().email("Please enter a valid email address"),
+  fullName: z.string().max(100).optional(),
+});
+
+app.post("/api/aima-signup", (req, res) => {
+  const parsed = AimaSignupSchema.safeParse(req.body);
+  if (!parsed.success) {
+    const firstError = parsed.error.errors[0]?.message || "Invalid submission.";
+    return res.status(400).json({ error: firstError });
+  }
+
+  const { processNumber, email, fullName } = parsed.data;
+
+  try {
+    saveAimaSubscriber({
+      processNumber,
+      email,
+      fullName: fullName || null,
+      subscribedAt: new Date().toISOString(),
+    });
+
+    // Notify admin
+    if (resend) {
+      resend.emails
+        .send({
+          from: "noreply@bordersx.com",
+          to: "kurran@bordersx.com",
+          subject: "New AIMA Tracker signup",
+          text: `Process: ${processNumber}\nEmail: ${email}\nName: ${fullName || "—"}`,
+        })
+        .catch((err) => console.error("[bordersx] AIMA signup notification failed:", err.message));
+    }
+
+    return res.json({ ok: true });
+  } catch (err) {
+    console.error("[bordersx] Failed to save AIMA subscriber:", err.message);
+    return res.status(500).json({ error: "Could not save your subscription. Please try again." });
+  }
+});
+
 // Letters (incl. accented), spaces, hyphens, apostrophes — covers things
 // like "Bosnian-Herzegovinian" or "Côte d'Ivoire" adjectives.
 const NATIONALITY_TEXT_PATTERN = /^[\p{L}\s'-]+$/u;

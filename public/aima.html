@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AIMA Appointment Tracker — BordersX</title>
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    .aima-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: var(--accent-teal-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .aima-icon svg { color: var(--accent-teal); }
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent-teal);
+      background: var(--accent-teal-soft);
+      border-radius: 999px;
+      padding: 5px 12px;
+      margin-bottom: 24px;
+    }
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent-teal);
+      animation: pulse 2.5s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
+    .field-label {
+      display: block;
+      font-family: var(--font-head);
+      font-size: 0.88rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--fg);
+    }
+    .field-group { margin-bottom: 20px; }
+    .field-hint-text {
+      margin-top: 7px;
+      font-size: 0.82rem;
+      color: var(--fg-muted);
+    }
+    .how-it-works {
+      margin-top: 36px;
+      padding-top: 28px;
+      border-top: 1px solid var(--border);
+    }
+    .how-it-works h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin: 0 0 16px;
+      color: var(--fg-mid);
+    }
+    .steps-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .steps-list li {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      font-size: 0.9rem;
+      color: var(--fg-mid);
+      line-height: 1.55;
+    }
+    .step-num {
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--accent-teal-soft);
+      color: var(--accent-teal);
+      font-size: 0.72rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1px;
+    }
+    .success-panel { text-align: center; padding: 20px 0; }
+    .success-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: var(--accent-teal-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 18px;
+    }
+    .success-icon svg { color: var(--accent-teal); }
+    .success-panel h2 { font-size: 1.4rem; margin: 0 0 10px; }
+    .success-panel p { color: var(--fg-mid); margin: 0 0 6px; }
+    .back-to-home {
+      display: inline-block;
+      margin-top: 24px;
+      font-size: 0.9rem;
+      color: var(--accent-teal);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .back-to-home:hover { text-decoration: underline; }
+    .error-banner {
+      background: color-mix(in srgb, var(--danger) 10%, transparent);
+      border: 1px solid color-mix(in srgb, var(--danger) 30%, transparent);
+      border-radius: var(--radius-sm);
+      color: var(--danger);
+      font-size: 0.88rem;
+      padding: 12px 16px;
+      margin-bottom: 20px;
+    }
+    .error-banner[hidden] { display: none; }
+  </style>
+</head>
+<body>
+  <div class="bg-decor"></div>
+
+  <nav class="topbar">
+    <div class="topbar-inner">
+      <a href="/" style="text-decoration:none;color:inherit">
+        <div class="logo">
+          <div class="logo-mark">BX</div>
+          <span class="logo-text">Borders<strong>X</strong></span>
+        </div>
+      </a>
+      <span class="tagline">Portugal intelligence</span>
+    </div>
+  </nav>
+
+  <div class="shell" style="max-width:580px">
+    <!-- SIGNUP FORM -->
+    <div id="form-panel" class="panel">
+      <div class="aima-icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+        </svg>
+      </div>
+
+      <div class="status-badge">
+        <span class="status-dot"></span>
+        Free · Checks daily
+      </div>
+
+      <h1 style="font-size:1.7rem;margin:0 0 10px">AIMA Appointment Tracker</h1>
+      <p class="lede">Enter your AIMA process number and we'll email you the moment your appointment status changes — no need to keep checking manually.</p>
+
+      <div id="error-banner" class="error-banner" hidden></div>
+
+      <form id="aima-form" novalidate>
+        <div class="field-group">
+          <label class="field-label" for="process-number">AIMA process number</label>
+          <input
+            class="text-input text-input-lg"
+            id="process-number"
+            name="processNumber"
+            type="text"
+            placeholder="e.g. 2024/123456"
+            autocomplete="off"
+            spellcheck="false"
+            required
+          >
+          <p class="field-hint-text">Found in your AIMA application confirmation email or SEF/AIMA receipt.</p>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="aima-email">Your email address</label>
+          <input
+            class="text-input text-input-lg"
+            id="aima-email"
+            name="email"
+            type="email"
+            placeholder="you@example.com"
+            autocomplete="email"
+            required
+          >
+          <p class="field-hint-text">We'll only email you when something changes. No spam.</p>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="full-name">Your name <span style="font-weight:400;color:var(--fg-muted)">(optional)</span></label>
+          <input
+            class="text-input text-input-lg"
+            id="full-name"
+            name="fullName"
+            type="text"
+            placeholder="First name"
+            autocomplete="given-name"
+          >
+        </div>
+
+        <button type="submit" id="submit-btn" class="btn btn-primary btn-block" style="margin-top:8px">
+          Start tracking my appointment
+        </button>
+        <p class="fine-print" style="text-align:center;margin-top:12px">Free forever · Unsubscribe any time</p>
+      </form>
+
+      <div class="how-it-works">
+        <h3>How it works</h3>
+        <ul class="steps-list">
+          <li>
+            <span class="step-num">1</span>
+            <span>We check your AIMA process number against the official AIMA portal every morning.</span>
+          </li>
+          <li>
+            <span class="step-num">2</span>
+            <span>The moment your appointment date, status, or location changes, you get an email within hours.</span>
+          </li>
+          <li>
+            <span class="step-num">3</span>
+            <span>No login required. Unsubscribe from any alert email with one click.</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- SUCCESS STATE -->
+    <div id="success-panel" class="panel" hidden>
+      <div class="success-panel">
+        <div class="success-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </div>
+        <h2>You're being tracked</h2>
+        <p>We're now watching your AIMA process number.</p>
+        <p id="success-email-line" style="font-weight:600;color:var(--fg)"></p>
+        <p style="margin-top:14px">We'll email you the moment anything changes — appointment date, status, or location.</p>
+        <a href="/" class="back-to-home">← Back to BordersX</a>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    Portugal · Not legal advice · <a href="/" style="color:var(--fg-muted)">BordersX</a>
+  </footer>
+
+  <script>
+    const form = document.getElementById('aima-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const errorBanner = document.getElementById('error-banner');
+    const formPanel = document.getElementById('form-panel');
+    const successPanel = document.getElementById('success-panel');
+    const successEmailLine = document.getElementById('success-email-line');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorBanner.hidden = true;
+
+      const processNumber = document.getElementById('process-number').value.trim();
+      const email = document.getElementById('aima-email').value.trim();
+      const fullName = document.getElementById('full-name').value.trim();
+
+      if (!processNumber) {
+        showError('Please enter your AIMA process number.');
+        return;
+      }
+      if (!email) {
+        showError('Please enter your email address.');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Setting up tracker…';
+
+      try {
+        const res = await fetch('/api/aima-signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ processNumber, email, fullName })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          showError(data.error || 'Something went wrong. Please try again.');
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Start tracking my appointment';
+          return;
+        }
+
+        // Success
+        successEmailLine.textContent = `We'll notify ${email}`;
+        formPanel.hidden = true;
+        successPanel.hidden = false;
+
+      } catch (err) {
+        showError('Could not connect. Please check your connection and try again.');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Start tracking my appointment';
+      }
+    });
+
+    function showError(msg) {
+      errorBanner.textContent = msg;
+      errorBanner.hidden = false;
+      errorBanner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  </script>
+</body>
+</html>

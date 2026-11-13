@@ -7,7 +7,8 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch server.js",
-    "monitor": "NODE_EXTRA_CA_CERTS=certs/sectigo-public-server-auth-ca-ov-r36.pem node monitor.js"
+    "monitor": "NODE_EXTRA_CA_CERTS=certs/sectigo-public-server-auth-ca-ov-r36.pem node monitor.js",
+    "aima-tracker": "node aima-tracker.js"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.68.0",
