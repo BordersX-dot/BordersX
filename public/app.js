@@ -146,9 +146,10 @@
 
   function showScreen(name) {
     Object.values(screens).forEach((el) => (el.hidden = true));
-    window.scrollTo({ top: 0, behavior: "instant" });
     screens[name].hidden = false;
     if (name === "intro") window.Settler?.refreshResumeBanner();
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
   }
 
   // Lets settler.js switch screens without owning the screen list.
