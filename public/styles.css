@@ -2,65 +2,35 @@
 /* Dark-first. Electric sapphire accent. Inter throughout.                     */
 
 :root {
-  color-scheme: dark;
-  --bg:               #0C0C0B;
-  --bg-2:             #111110;
-  --bg-3:             #181816;
-  --fg:               #F0EDE8;
-  --fg-mid:           #8A8680;
-  --fg-muted:         #4A4844;
-  --card-bg:          #111110;
-  --card-sunken:      #0E0E0D;
-  --border:           #222220;
-  --accent-teal:      #4169FF;
-  --accent-teal-hover:#5A7EFF;
-  --accent-teal-soft: rgba(65,105,255,0.12);
-  --accent-gold:      #E8B84B;
-  --accent-gold-hover:#F0C965;
-  --accent-gold-soft: rgba(232,184,75,0.12);
-  --accent-gold-ink:  #E8B84B;
-  --plan-b:           #7B9FEA;
-  --plan-b-soft:      rgba(123,159,234,0.12);
-  --danger:           #FF6B6B;
+  color-scheme: light;
+  --bg:               #FAFAF9;
+  --bg-2:             #F4F3F0;
+  --bg-3:             #EDECEA;
+  --fg:               #0C0C0B;
+  --fg-mid:           #55524E;
+  --fg-muted:         #A09D99;
+  --card-bg:          #FFFFFF;
+  --card-sunken:      #F4F3F0;
+  --border:           #E4E2DE;
+  --accent-teal:      #2B4FE8;
+  --accent-teal-hover:#3D5FF0;
+  --accent-teal-soft: rgba(43,79,232,0.08);
+  --accent-gold:      #C9910A;
+  --accent-gold-hover:#D9A420;
+  --accent-gold-soft: rgba(201,145,10,0.08);
+  --accent-gold-ink:  #9A6E00;
+  --plan-b:           #2B4FE8;
+  --plan-b-soft:      rgba(43,79,232,0.08);
+  --danger:           #D63031;
   --brand-navy:       #0C0C0B;
-  --brand-navy-2:     #111110;
+  --brand-navy-2:     #1A1917;
   --on-brand:         #F0EDE8;
   --on-brand-mid:     rgba(240,237,232,0.7);
   --radius:           10px;
   --radius-sm:        7px;
-  --shadow:           0 1px 3px rgba(0,0,0,0.4), 0 8px 24px -8px rgba(0,0,0,0.5);
+  --shadow:           0 1px 2px rgba(0,0,0,0.06), 0 8px 24px -8px rgba(0,0,0,0.12);
   --font-head:        "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-body:        "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color-scheme: light;
-    --bg:               #FAFAF9;
-    --bg-2:             #F4F3F0;
-    --bg-3:             #EDECEA;
-    --fg:               #0C0C0B;
-    --fg-mid:           #55524E;
-    --fg-muted:         #A09D99;
-    --card-bg:          #FFFFFF;
-    --card-sunken:      #F4F3F0;
-    --border:           #E4E2DE;
-    --accent-teal:      #2B4FE8;
-    --accent-teal-hover:#3D5FF0;
-    --accent-teal-soft: rgba(43,79,232,0.08);
-    --accent-gold:      #C9910A;
-    --accent-gold-hover:#D9A420;
-    --accent-gold-soft: rgba(201,145,10,0.08);
-    --accent-gold-ink:  #9A6E00;
-    --plan-b:           #2B4FE8;
-    --plan-b-soft:      rgba(43,79,232,0.08);
-    --danger:           #D63031;
-    --brand-navy:       #0C0C0B;
-    --brand-navy-2:     #1A1917;
-    --on-brand:         #F0EDE8;
-    --on-brand-mid:     rgba(240,237,232,0.7);
-    --shadow:           0 1px 2px rgba(0,0,0,0.06), 0 8px 24px -8px rgba(0,0,0,0.12);
-  }
 }
 
 /* ── Reset ─────────────────────────────────────────────────────────────────── */
