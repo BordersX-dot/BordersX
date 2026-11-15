@@ -457,54 +457,30 @@
 
   // Third metric + insight box on each plan card. Both fields are optional in
   // the server schema, so fall back to a derived figure / hide the box.
-  function renderPlanExtras(prefix, plan, fallbackFigure) {
-    const figure = plan.keyFigure || fallbackFigure;
-    document.getElementById(`${prefix}-figure-label`).textContent = figure.label;
-    document.getElementById(`${prefix}-figure`).textContent = figure.value;
-    document.getElementById(`${prefix}-insight`).textContent = plan.insight || "";
-    document.getElementById(`${prefix}-insight-box`).hidden = !plan.insight;
-  }
-
   function renderResults(result) {
     renderProfileTags();
 
-    const score = Math.max(0, Math.min(100, Math.round(result.mobilityScore)));
-    document.getElementById("score-number").textContent = score;
-    document.getElementById("score-summary").textContent = result.scoreSummary;
+    // Verdict banner — use scoreSummary as the top-line verdict
+    document.getElementById("verdict-text").textContent = result.scoreSummary;
 
-    const circumference = 326.7;
-    const offset = circumference - (score / 100) * circumference;
-    const ring = document.getElementById("score-ring-fg");
-    ring.style.strokeDashoffset = circumference;
-    requestAnimationFrame(() => {
-      ring.style.strokeDashoffset = offset;
-    });
-
+    // Route A
     document.getElementById("planA-title").textContent = result.planA.title;
     document.getElementById("planA-summary").textContent = result.planA.summary;
-    fillList("planA-details", result.planA.details);
-    renderPlanExtras("planA", result.planA, { label: "Mobility score", value: `${score} / 100` });
 
+    // Route B
     document.getElementById("planB-title").textContent = result.planB.title;
     document.getElementById("planB-summary").textContent = result.planB.summary;
     document.getElementById("planB-timeline").textContent = result.planB.timeline;
     document.getElementById("planB-cost").textContent = result.planB.estimatedCost;
-    fillList("planB-steps", result.planB.steps);
-    document.getElementById("planB-steps-toggle").textContent = stepsLabel(result.planB.steps);
-    const actionCount = (result.weeklyActions || []).length;
-    renderPlanExtras("planB", result.planB, { label: "This week", value: `${actionCount} action${actionCount === 1 ? "" : "s"}` });
 
+    // Route C
     document.getElementById("planC-title").textContent = result.planC.title;
     document.getElementById("planC-summary").textContent = result.planC.summary;
     document.getElementById("planC-timeline").textContent = result.planC.timeline;
     document.getElementById("planC-cost").textContent = result.planC.estimatedCost;
-    fillList("planC-steps", result.planC.steps);
-    document.getElementById("planC-steps-toggle").textContent = stepsLabel(result.planC.steps);
-    renderPlanExtras("planC", result.planC, { label: "Route", value: `${(result.planC.steps || []).length} steps` });
 
+    // Key insight
     document.getElementById("key-insight").textContent = result.keyInsight;
-
-    fillList("weekly-actions", result.weeklyActions);
 
     window.Settler.setup(result, {
       eu: isEuNational(),

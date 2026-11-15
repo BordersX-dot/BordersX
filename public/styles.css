@@ -891,6 +891,109 @@ body:has(#screen-settler:not([hidden])) .footer { display: none; }
 .plan-insight .insight-label { margin-bottom: 3px; }
 .plan-insight p { margin: 0; font-size: 0.88rem; line-height: 1.55; color: var(--fg); overflow-wrap: anywhere; }
 
+/* ── Verdict + Route cards ─────────────────────────────────────────────────── */
+.verdict-banner {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent-teal);
+  border-radius: var(--radius);
+  padding: 24px 26px;
+  margin-bottom: 24px;
+}
+.verdict-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-teal);
+  margin-bottom: 8px;
+}
+.verdict-text {
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.55;
+  color: var(--fg);
+  margin: 0 0 14px;
+}
+.verdict-banner .profile-tags { margin-top: 4px; }
+
+.routes {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.route-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+}
+
+.route-letter {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-head);
+  font-size: 0.95rem;
+  font-weight: 800;
+  margin-top: 1px;
+}
+.route-a .route-letter { background: var(--accent-teal-soft); color: var(--accent-teal); }
+.route-b .route-letter { background: var(--plan-b-soft); color: var(--plan-b); }
+.route-c .route-letter { background: var(--accent-gold-soft); color: var(--accent-gold); }
+
+.route-body { flex: 1; min-width: 0; }
+.route-name {
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.3;
+  margin-bottom: 4px;
+  overflow-wrap: anywhere;
+}
+.route-why {
+  font-size: 0.88rem;
+  color: var(--fg-mid);
+  line-height: 1.6;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.route-chips {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+  flex-shrink: 0;
+  min-width: 90px;
+}
+.chip {
+  font-size: 0.72rem;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 3px 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 130px;
+}
+.chip-timeline { background: var(--bg-3); color: var(--fg-mid); border: 1px solid var(--border); }
+.chip-cost { background: var(--accent-gold-soft); color: var(--accent-gold); border: 1px solid color-mix(in srgb, var(--accent-gold) 20%, transparent); }
+
+@media (max-width: 480px) {
+  .route-row { flex-wrap: wrap; }
+  .route-chips { flex-direction: row; align-items: center; min-width: 0; width: 100%; margin-top: 8px; }
+  .chip { max-width: none; }
+}
+
 /* CTA */
 .cta-block {
   text-align: center;

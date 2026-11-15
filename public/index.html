@@ -392,137 +392,82 @@
     <!-- RESULTS -->
     <section class="report" id="screen-results" data-screen hidden>
 
-      <header class="report-header">
-        <div class="eyebrow">Your Mobility Analysis</div>
-        <h1 class="report-title">Here's where you stand — and where you could go.</h1>
+      <!-- Verdict banner -->
+      <div class="verdict-banner">
+        <div class="verdict-label">Your verdict</div>
+        <p class="verdict-text" id="verdict-text"></p>
         <div class="profile-tags" id="profile-tags"></div>
-      </header>
-
-      <div class="score-block">
-        <div class="score-ring-wrap">
-          <svg viewBox="0 0 120 120" class="score-ring" aria-hidden="true">
-            <circle cx="60" cy="60" r="52" class="score-ring-bg" />
-            <circle cx="60" cy="60" r="52" class="score-ring-fg" id="score-ring-fg" />
-          </svg>
-          <div class="score-number"><span id="score-number">0</span><small>/100</small></div>
-        </div>
-        <div class="score-copy">
-          <div class="score-label">Mobility Score</div>
-          <p id="score-summary"></p>
-        </div>
       </div>
 
-      <div class="section-label">Your three strategies</div>
-      <div class="plans">
-        <article class="plan-card plan-a">
-          <div class="plan-header">
-            <div class="plan-title-wrap">
-              <div class="plan-subtitle">Plan A · Where you stand</div>
-              <h2 class="plan-title" id="planA-title"></h2>
-            </div>
-            <span class="plan-badge badge-a">Primary</span>
-          </div>
-          <div class="plan-metrics">
-            <div class="metric"><div class="metric-label">Timeline</div><div class="metric-value">Today</div></div>
-            <div class="metric"><div class="metric-label">Est. Cost</div><div class="metric-value">No change</div></div>
-            <div class="metric"><div class="metric-label" id="planA-figure-label"></div><div class="metric-value" id="planA-figure"></div></div>
-          </div>
-          <div class="plan-body">
-            <p class="plan-summary" id="planA-summary"></p>
-            <ul class="plan-points" id="planA-details"></ul>
-            <div class="plan-insight" id="planA-insight-box" hidden>
-              <div class="insight-label">Watch out for</div>
-              <p id="planA-insight"></p>
-            </div>
-          </div>
-        </article>
+      <!-- Route cards: A, B, C -->
+      <div class="routes">
 
-        <article class="plan-card plan-b">
-          <div class="plan-header">
-            <div class="plan-title-wrap">
-              <div class="plan-subtitle">Plan B · Strongest move</div>
-              <h2 class="plan-title" id="planB-title"></h2>
-            </div>
-            <span class="plan-badge badge-b">Alternative</span>
+        <div class="route-row route-a">
+          <div class="route-letter">A</div>
+          <div class="route-body">
+            <div class="route-name" id="planA-title"></div>
+            <p class="route-why" id="planA-summary"></p>
           </div>
-          <div class="plan-metrics">
-            <div class="metric"><div class="metric-label">Timeline</div><div class="metric-value" id="planB-timeline"></div></div>
-            <div class="metric"><div class="metric-label">Est. Cost</div><div class="metric-value" id="planB-cost"></div></div>
-            <div class="metric"><div class="metric-label" id="planB-figure-label"></div><div class="metric-value" id="planB-figure"></div></div>
+          <div class="route-chips">
+            <span class="chip chip-timeline">Now</span>
           </div>
-          <div class="plan-body">
-            <p class="plan-summary" id="planB-summary"></p>
-            <details class="plan-expand" open>
-              <summary>Your three actions this week</summary>
-              <ol class="action-list" id="weekly-actions"></ol>
-            </details>
-            <details class="plan-expand">
-              <summary id="planB-steps-toggle">View steps</summary>
-              <ol class="action-list" id="planB-steps"></ol>
-            </details>
-            <div class="plan-insight" id="planB-insight-box" hidden>
-              <div class="insight-label">Watch out for</div>
-              <p id="planB-insight"></p>
-            </div>
-          </div>
-        </article>
+        </div>
 
-        <article class="plan-card plan-c">
-          <div class="plan-header">
-            <div class="plan-title-wrap">
-              <div class="plan-subtitle">Plan C · Citizenship route</div>
-              <h2 class="plan-title" id="planC-title"></h2>
-            </div>
-            <span class="plan-badge badge-c">Hedge</span>
+        <div class="route-row route-b">
+          <div class="route-letter">B</div>
+          <div class="route-body">
+            <div class="route-name" id="planB-title"></div>
+            <p class="route-why" id="planB-summary"></p>
           </div>
-          <div class="plan-metrics">
-            <div class="metric"><div class="metric-label">Timeline</div><div class="metric-value" id="planC-timeline"></div></div>
-            <div class="metric"><div class="metric-label">Est. Cost</div><div class="metric-value" id="planC-cost"></div></div>
-            <div class="metric"><div class="metric-label" id="planC-figure-label"></div><div class="metric-value" id="planC-figure"></div></div>
+          <div class="route-chips">
+            <span class="chip chip-timeline" id="planB-timeline"></span>
+            <span class="chip chip-cost" id="planB-cost"></span>
           </div>
-          <div class="plan-body">
-            <p class="plan-summary" id="planC-summary"></p>
-            <details class="plan-expand">
-              <summary id="planC-steps-toggle">View steps</summary>
-              <ol class="action-list" id="planC-steps"></ol>
-            </details>
-            <div class="plan-insight" id="planC-insight-box" hidden>
-              <div class="insight-label">Watch out for</div>
-              <p id="planC-insight"></p>
-            </div>
+        </div>
+
+        <div class="route-row route-c">
+          <div class="route-letter">C</div>
+          <div class="route-body">
+            <div class="route-name" id="planC-title"></div>
+            <p class="route-why" id="planC-summary"></p>
           </div>
-        </article>
+          <div class="route-chips">
+            <span class="chip chip-timeline" id="planC-timeline"></span>
+            <span class="chip chip-cost" id="planC-cost"></span>
+          </div>
+        </div>
+
       </div>
 
+      <!-- Key insight -->
       <div class="insight-box">
         <div class="insight-icon" aria-hidden="true">✦</div>
         <div>
-          <div class="insight-label">The insight most people miss</div>
+          <div class="insight-label">The one thing most people miss</div>
           <p class="insight-text" id="key-insight"></p>
         </div>
       </div>
 
-      <div class="settler-cta">
-        <div class="eyebrow">Settler</div>
-        <h3>Build your Portugal application file</h3>
-        <p>To apply for your visa, your lawyer will need these in place: NIF, bank account, health insurance, accommodation proof, and apostilled documents. Start building your file now.</p>
-        <div class="settler-choices" id="settler-choices" role="group" aria-label="Choose a country"></div>
-      </div>
-
+      <!-- CTAs -->
       <div class="next-steps">
         <div class="next-step next-step-lawyer">
-          <div class="eyebrow">Step 1</div>
-          <h3>Book your lawyer consultation</h3>
-          <p>A vetted immigration lawyer will confirm your route and manage your visa application.</p>
+          <div class="eyebrow">Next step</div>
+          <h3>Confirm your route with a lawyer</h3>
+          <p>BordersX gives you the direction. A vetted immigration lawyer confirms the detail and handles your application.</p>
           <a class="btn btn-primary" href="https://calendly.com/kurran-bordersx/bordersx-free-strategy-call" target="_blank" rel="noopener noreferrer">Book a free strategy call →</a>
         </div>
         <div class="next-step next-step-settler">
-          <div class="eyebrow eyebrow-gold">Step 2</div>
-          <h3>Start your Settler checklist</h3>
-          <p>Build the file your lawyer needs — with exclusive discounts on banking, insurance, SIMs and accommodation.</p>
+          <div class="eyebrow eyebrow-gold">While you wait</div>
+          <h3>Start your application file</h3>
+          <p>Build the documents your lawyer will need — NIF, bank account, health insurance, accommodation proof.</p>
           <button type="button" class="btn btn-gold" id="btn-settler-card">Get my checklist →</button>
         </div>
       </div>
+
+      <div class="settler-cta" style="display:none">
+        <div class="settler-choices" id="settler-choices" role="group" aria-label="Choose a country"></div>
+      </div>
+
       <button type="button" class="cta-secondary" id="btn-restart">Start a new analysis</button>
 
       <div class="disclaimer">
