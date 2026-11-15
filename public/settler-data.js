@@ -13,7 +13,7 @@
 //
 // Each country also has a tagline, shown on the homepage Settler picker.
 //
-// ctx = { eu, british, american, family, passive } — derived from the quiz answers.
+// ctx = { eu, british, american, family, passive, entrepreneur } — derived from the quiz answers.
 //
 // Facts taken from knowledge.json — keep in sync when policy changes: pt-aima,
 // pt-nhr, pt-residency-file, ae-tax, ae-days, ae-renew, and the US wording in homeExit.
@@ -80,9 +80,13 @@
           id: "pt-visa",
           days: -90,
           when: (c) => !c.eu,
-          title: (c) => (c.passive ? "Apply for your D7 (passive income) visa" : "Apply for your D8 (digital nomad) visa"),
+          title: (c) => c.passive ? "Apply for your D7 (passive income) visa" : c.entrepreneur ? "Apply for your D2 (entrepreneur) visa" : "Apply for your D8 (digital nomad) visa",
           body: (c) =>
-            `Apply at the Portuguese consulate or its visa centre in your country. You'll need proof of ${c.passive ? "regular passive income (pension, rental or investment)" : "remote income from outside Portugal"}, a NIF, a Portuguese bank account, accommodation, health insurance and a criminal record certificate.`,
+            c.passive
+              ? "Apply at the Portuguese consulate or its visa centre in your country. You'll need proof of regular passive income (pension, rental or investment), a NIF, a Portuguese bank account, accommodation, health insurance and a criminal record certificate."
+              : c.entrepreneur
+              ? "Apply at the Portuguese consulate or its visa centre in your country. You'll need a business plan, proof of financial means, a NIF, a Portuguese bank account (or proof of investment in a Portuguese company), accommodation, health insurance and a criminal record certificate. If you're setting up a Lda (limited company), have your Articles of Association ready."
+              : "Apply at the Portuguese consulate or its visa centre in your country. You'll need proof of remote income from outside Portugal, a NIF, a Portuguese bank account, accommodation, health insurance and a criminal record certificate.",
         },
         {
           id: "pt-eu-docs",

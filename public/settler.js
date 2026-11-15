@@ -121,6 +121,7 @@
       american: profile.nationality === "American",
       family: profile.dependants !== "Just me",
       passive: PASSIVE_INCOME_TYPES.includes(profile.incomeType),
+      entrepreneur: profile.incomeType === "Business owner / equity holder" || profile.incomeType === "Self-employed / freelance",
     };
 
     const options = [];
@@ -457,12 +458,13 @@
       american: v.passport === "American",
       family: v.family,
       passive: v.passive,
+      entrepreneur: v.entrepreneur || false,
     };
     open(v.country, {
       basis: [
         `${PASSPORT_LABELS[v.passport]} passport`,
         v.family ? "Moving with family" : "Moving alone",
-        v.passive ? "Pension, savings or investment income" : "Working income",
+        v.passive ? "Pension, savings or investment income" : v.entrepreneur ? "Entrepreneur / business income" : "Working income",
       ].join(" · "),
       from: "settlerPicker",
     });
@@ -470,7 +472,11 @@
 
   // ── Direct entry: homepage Settler card → profile form → checklist ──
 
-  const VISA_LABELS = { D7: "D7 visa (passive income)", D8: "D8 visa (digital nomad)" };
+  const VISA_LABELS = {
+    D7: "D7 visa (passive income)",
+    D8: "D8 visa (digital nomad)",
+    D2: "D2 visa (entrepreneur)",
+  };
   const profileForm = document.getElementById("profile-form");
   const profileSubmit = document.getElementById("btn-profile-submit");
   const nationalityOther = document.getElementById("profile-nationality-other");
@@ -520,6 +526,7 @@
       family: false,
       // EU nationals register residency directly — passive is irrelevant
       passive: isEu ? false : profile.visaType === "D7",
+      entrepreneur: !isEu && profile.visaType === "D2",
     };
     document.getElementById("save-email").value = profile.email;
     const basisLabel = isEu
