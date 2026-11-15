@@ -140,6 +140,10 @@ function detectChange(prev, current) {
 async function sendChangeAlert(subscriber, processNumber, prev, current) {
   const name = subscriber.fullName ? subscriber.fullName.split(" ")[0] : "there";
   const subject = `Your AIMA appointment status has changed — ${processNumber}`;
+  const BASE_URL = process.env.BASE_URL || "https://bordersx.com";
+  const unsubscribeUrl = subscriber.unsubscribeToken
+    ? `${BASE_URL}/unsubscribe?token=${subscriber.unsubscribeToken}`
+    : null;
 
   const text = `Hi ${name},
 
@@ -152,9 +156,15 @@ https://www.siga.aima.gov.pt/public/agendamento/consulta
 This alert was sent by BordersX — we check your process number every morning and email you the moment anything moves.
 
 ---
-To stop receiving these alerts, reply to this email with "unsubscribe" in the subject line.
+${unsubscribeUrl ? `To stop receiving these alerts: ${unsubscribeUrl}` : "To stop receiving these alerts, reply to this email with \"unsubscribe\" in the subject line."}
 
 BordersX · Portugal immigration intelligence · bordersx.com`;
+
+  const unsubscribeFooter = unsubscribeUrl
+    ? `BordersX checks your process number every morning and alerts you whenever something changes.<br>
+      <a href="${unsubscribeUrl}" style="color: #9A958F;">Unsubscribe</a>`
+    : `BordersX checks your process number every morning and alerts you whenever something changes.<br>
+      To stop receiving these alerts, reply with &ldquo;unsubscribe&rdquo; in the subject line.`;
 
   const html = `
 <div style="font-family: -apple-system, 'Segoe UI', sans-serif; max-width: 560px; margin: 0 auto; color: #1A1917;">
@@ -177,8 +187,7 @@ BordersX · Portugal immigration intelligence · bordersx.com`;
       Check my AIMA status →
     </a>
     <p style="margin: 28px 0 0; font-size: 0.8rem; color: #9A958F; line-height: 1.6;">
-      BordersX checks your process number every morning and alerts you whenever something changes.<br>
-      To stop receiving these alerts, reply with "unsubscribe" in the subject line.
+      ${unsubscribeFooter}
     </p>
   </div>
 </div>`;

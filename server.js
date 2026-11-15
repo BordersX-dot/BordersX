@@ -3,6 +3,7 @@ import express from "express";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { randomBytes } from "crypto";
 import Anthropic from "@anthropic-ai/sdk";
 import { Resend } from "resend";
 import { z } from "zod";
@@ -71,6 +72,15 @@ function saveAimaSubscriber(subscriber) {
   }
 }
 
+function removeAimaSubscriber(token) {
+  const subs = readAimaSubscribers();
+  const idx = subs.findIndex((s) => s.unsubscribeToken === token);
+  if (idx === -1) return false;
+  subs.splice(idx, 1);
+  fs.writeFileSync(AIMA_SUBSCRIBERS_PATH, JSON.stringify(subs, null, 2));
+  return true;
+}
+
 const AimaSignupSchema = z.object({
   processNumber: z
     .string()
@@ -96,6 +106,7 @@ app.post("/api/aima-signup", (req, res) => {
       email,
       fullName: fullName || null,
       subscribedAt: new Date().toISOString(),
+      unsubscribeToken: randomBytes(24).toString("hex"),
     });
 
     // Notify admin
@@ -116,6 +127,49 @@ app.post("/api/aima-signup", (req, res) => {
     return res.status(500).json({ error: "Could not save your subscription. Please try again." });
   }
 });
+
+// AIMA unsubscribe — one-click link from alert emails
+app.get("/unsubscribe", (req, res) => {
+  const { token } = req.query;
+  if (!token || typeof token !== "string" || !/^[0-9a-f]{48}$/.test(token)) {
+    return res.status(400).send(unsubscribePage("Invalid or missing token.", false));
+  }
+  const removed = removeAimaSubscriber(token);
+  if (removed) {
+    return res.send(unsubscribePage("You've been unsubscribed.", true));
+  }
+  // Token not found — already removed or never existed
+  return res.send(unsubscribePage("This link has already been used or has expired.", false));
+});
+
+function unsubscribePage(message, success) {
+  const color = success ? "#0E7C6B" : "#B45309";
+  const icon = success ? "✓" : "·";
+  return `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unsubscribe — BordersX</title>
+<style>
+  body { font-family: -apple-system, 'Segoe UI', sans-serif; background: #FAFAF9; color: #1A1917; margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+  .card { background: #fff; border: 1px solid #E4E0DA; border-radius: 12px; padding: 48px 40px; max-width: 420px; width: 90%; text-align: center; }
+  .icon { font-size: 2rem; color: ${color}; margin-bottom: 16px; }
+  h1 { font-size: 1.25rem; font-weight: 700; margin: 0 0 10px; }
+  p { color: #5A5651; font-size: 0.95rem; line-height: 1.6; margin: 0 0 24px; }
+  a { color: #2B4FE8; text-decoration: none; font-size: 0.9rem; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="icon">${icon}</div>
+  <h1>${message}</h1>
+  <p>You will no longer receive AIMA status alerts from BordersX.</p>
+  <a href="https://bordersx.com">← Back to BordersX</a>
+</div>
+</body>
+</html>`;
+}
 
 // Letters (incl. accented), spaces, hyphens, apostrophes — covers things
 // like "Bosnian-Herzegovinian" or "Côte d'Ivoire" adjectives.
