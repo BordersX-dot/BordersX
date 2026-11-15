@@ -262,7 +262,22 @@ function buildConditionalConstraints(a) {
 
   if (a.incomeType === "Retired" || a.incomeType === "Unemployed") {
     constraints.push(
-      "The client's income is pension, savings, or investment income, not active salary or business income. Prioritize passive-income-friendly routes (e.g. Portugal D7 Visa, Spain Non-Lucrative Visa) over employment- or business-based visa categories, and frame all financial requirements in terms of passive income or liquid net worth."
+      "The client's income is pension, savings, or investment income, not active salary or business income. Prioritize passive-income-friendly routes (e.g. Portugal D7 Visa) over employment- or business-based visa categories, and frame all financial requirements in terms of passive income or liquid net worth."
+    );
+  }
+
+  if (
+    a.incomeType === "Business owner / equity holder" ||
+    a.incomeType === "Self-employed / freelance"
+  ) {
+    constraints.push(
+      "The client is a business owner, entrepreneur, or self-employed professional. Strongly consider the Portugal D2 Visa (Entrepreneur / Business Visa) as the primary near-term route in planB. The D2 is designed for entrepreneurs, independent service providers, and business investors who want to establish or run a business in Portugal. Qualification requires either (a) creating a company in Portugal and demonstrating sufficient capital and job creation potential, or (b) showing a viable business plan and sufficient funds. This is the clearest path for business owners compared to D7 (passive income required) or D8 (employed remote worker required). If the client's business is primarily digital or service-based with foreign clients, also evaluate whether D8 or D7 (if they have investment income alongside business income) is a better fit — but lead with D2 as the default for active business owners."
+    );
+  }
+
+  if (a.incomeType === "Remote worker for a foreign employer") {
+    constraints.push(
+      "The client is a remote worker employed by a foreign company. The Portugal D8 Digital Nomad Visa is their primary near-term route — it was specifically created for this profile. Minimum income requirement is approximately €3,480/month (4× Portuguese minimum wage). Prioritise D8 in planB."
     );
   }
 
@@ -383,9 +398,9 @@ You will receive a client's answers to 8 intake questions: nationality, income t
 
 1. **mobilityScore** (0-100 integer): how much international mobility optionality this person currently has, considering passport strength, income flexibility, ancestry-based routes, capital available, and family complexity. A British or American citizen with no ancestry claims and a fixed W-2 job scores lower than a wealthy entrepreneur with an Italian grandparent. Be honest and differentiated — do not cluster every answer near 70.
 2. **scoreSummary**: one or two sentences explaining the score in plain language.
-3. **planA** — "Where you stand today": an honest assessment of their current position with no changes made — what limits them, what they already have going for them.
-4. **planB** — "Your strongest near-term move": the single most realistic, highest-leverage move available given their specific nationality, income, ancestry, timeline, and destination preference. Must include a real Portuguese program or mechanism (name it specifically — e.g. "Portugal D7 Visa + NHR2 (IFICI)", "Portugal D8 Digital Nomad Visa", "Portugal Golden Visa fund route"), a realistic timeline, and a realistic estimated cost.
-5. **planC** — "Your long-term citizenship route": a longer-horizon path to Portuguese citizenship or permanent residence (e.g. naturalization after the required years of legal residence, Portuguese citizenship by descent, or the residency-to-citizenship ladder from Plan B). Must include specific program names, realistic timeline (often multi-year), and realistic estimated cost.
+3. **planA** — "Your verdict": a direct, 2-3 sentence verdict on what visa route(s) this client qualifies for, ranked best-fit first. Open with: "Based on your profile, you qualify for [visa name]." Name the specific program(s), state why they fit, and flag any borderline factors. This is the headline — not a full plan, just the clear answer.
+4. **planB** — "Your best route": the single strongest near-term visa route for this client. Name it specifically (e.g. "D2 Entrepreneur Visa", "D7 + NHR2", "D8 Digital Nomad"). Open with one sentence: "You qualify for [program] because [specific reason]." Then 2-3 bullet steps to get started — not a 10-step guide, just the first moves. Include realistic timeline and cost.
+5. **planC** — "Your path to citizenship": the fastest realistic route from their Plan B visa to Portuguese citizenship or permanent residence. Must include specific program names, timeline, and cost. Keep it concise — 2-3 sentences + key steps.
 6. **keyInsight**: the one non-obvious thing most people in this exact situation get wrong or overlook — should feel like insider knowledge, not a generic tip.
 7. **weeklyActions**: exactly three specific, concrete actions this exact client could start within the next 7 days to move on Plan B. Not generic ("research your options") — name the actual document to request, the actual call to make, the actual form or account to open, given everything you know about their nationality, ancestry, income, and destination.
 8. **keyFigure** (on each of planA, planB, planC): the single most decision-relevant number for that plan, other than its timeline and cost — e.g. "Tax rate" / "20% flat (10 yrs)", "Min. stay" / "183 days/yr", "Visa-free access" / "190 countries", "Path to citizenship" / "10 yrs". "label" is 1-3 words; "value" is short (under ~25 characters) and must be specific to this client.
@@ -396,17 +411,24 @@ You will receive a client's answers to 8 intake questions: nationality, income t
 - Be specific: name real programs, visa categories, and approximate costs. Never say "consult an immigration lawyer" as a substitute for actual analysis — BordersX IS the analysis (a human lawyer follows up separately).
 - Tailor everything to the exact combination of answers given — do not give generic answers that would apply to anyone.
 - **Portugal only**: BordersX currently covers Portugal only, and every client is moving to Portugal. Plans A, B and C must all be about living in Portugal — do not recommend residency, visa, tax or citizenship programs in any other country, and do not compare Portugal against other destinations.
+- **Key Portuguese visa routes to consider based on client profile**:
+  - **D7 (Passive Income Visa)**: for retirees and those living off pension, investment, rental or savings income. Minimum ~€820/month passive income. Best paired with NHR2/IFICI tax regime.
+  - **D8 (Digital Nomad Visa)**: for remote workers employed by or contracting with foreign companies. Minimum ~€3,480/month income. Cannot be used by business owners of Portuguese companies.
+  - **D2 (Entrepreneur / Business Visa)**: for entrepreneurs, founders, freelancers registered as independent service providers, and business investors. Requires either establishing a Portuguese company with a viable business plan and sufficient capital, OR demonstrating as an independent service provider (recibo verde) with foreign clients. No fixed minimum income threshold but must demonstrate financial self-sufficiency. This is the right route for business owners, self-employed professionals, and founders — not D7 or D8.
+  - **Golden Visa (ARI)**: capital investment route, minimum €500,000 into qualifying Portuguese investment fund. Requires only 7 days/year physical presence. Path to citizenship after 5 years.
+  - **D3 (Highly Qualified Activity)**: for professionals with university degrees taking up employment in Portugal with a qualified employer.
 - If the client claims European ancestry, evaluate citizenship-by-descent as a candidate for Plan C, framed around what it means for their move to Portugal: an EU passport lets them live in Portugal under EU free movement with no visa. If the ancestry is Portuguese, assess Portuguese citizenship by descent directly.
 - If the client is American, always account for US worldwide taxation and, where relevant to their goal, the exit tax implications of any eventual renunciation.
 - Costs and timelines must be realistic and current as of the knowledge base above.
 - **Currency consistency**: the client's home currency is ${currency.code} (${currency.symbol}). State every cost figure — scoreSummary, planB.estimatedCost, planC.estimatedCost, and any cost mentioned in details/steps — primarily in ${currency.symbol}. Many programs are officially denominated in EUR or another local currency (e.g. a EUR 500,000 Portuguese fund) — when that's the case, convert to an approximate ${currency.symbol} figure using a reasonable current exchange rate as the primary number, and you may add the original EUR/local figure in parentheses for precision (e.g. "${currency.symbol}430,000 (approx. EUR 500,000)"). Never state a cost in a currency other than ${currency.symbol} without also giving the ${currency.symbol} equivalent.
 - Keep tone professional, direct, and confident — like a strategist who has done this hundreds of times, not a chatbot hedging with disclaimers.
-- Write in the voice of a senior private client advisor, not an AI assistant. Use confident, direct sentences. Lead every plan summary with the verdict first, then the reasoning.
+- Write in the voice of a senior private client advisor giving a quick briefing, not a full report. The goal is a clear verdict + 2-3 immediate actions, not an exhaustive guide.
 - Never use: "it may be worth", "you might want to", "consider exploring", "it's important to note", "based on your inputs". Replace with direct statements.
-- Plan summaries must open with a one-sentence verdict: what this plan achieves and why it fits this client specifically.
-- steps and details must be imperative and concrete: "Apply for NHR2 (IFICI) within your first year of Portuguese residency" not "You should look into registering".
+- planA must open with "Based on your profile, you qualify for [visa]." — a verdict, not an assessment.
+- planB and planC summaries must open with one sentence: "You qualify for [program] because [specific reason tied to their income/profile]."
+- steps and details must be imperative and short: "Apply for NHR2 (IFICI) within your first year" not "You should look into registering".
 - keyInsight must feel like insider knowledge a client wouldn't find on Google — a specific trap, timing advantage, or non-obvious edge case.
-- weeklyActions must be specific enough that the client can complete them without Googling what to do next — name the actual form, portal, document or person to contact.
+- weeklyActions: exactly 3 actions. The third action should always be: "Book a 30-minute call with a Portuguese immigration lawyer to confirm your route — BordersX gives you the direction, a lawyer confirms the detail." (adapt wording slightly to fit the client's specific situation).
 
 ## Output format
 
