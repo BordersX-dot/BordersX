@@ -475,13 +475,18 @@
   const profileSubmit = document.getElementById("btn-profile-submit");
   const nationalityOther = document.getElementById("profile-nationality-other");
   const profileEmail = document.getElementById("profile-email");
+  const profileVisaGroup = document.getElementById("profile-visa-group");
+  const profileEuNote = document.getElementById("profile-eu-note");
 
   // Kept in localStorage for now, so a returning visitor goes straight back
   // to their checklist; a blocked storage just means asking again.
   function loadProfile() {
     try {
       const profile = JSON.parse(localStorage.getItem(PROFILE_KEY));
-      return COUNTRIES[profile?.destination] && VISA_LABELS[profile.visaType] ? profile : null;
+      if (!profile || !COUNTRIES[profile?.destination]) return null;
+      // EU nationals have no visaType — that's valid
+      if (profile.nationality !== "EU" && !VISA_LABELS[profile.visaType]) return null;
+      return profile;
     } catch {
       return null;
     }
@@ -507,18 +512,20 @@
   }
 
   function openFromProfile(profile) {
+    const isEu = profile.nationality === "EU";
     ctx = {
-      eu: profile.nationality === "EU",
+      eu: isEu,
       british: profile.nationality === "British",
       american: profile.nationality === "American",
       family: false,
-      passive: profile.visaType === "D7",
+      // EU nationals register residency directly — passive is irrelevant
+      passive: isEu ? false : profile.visaType === "D7",
     };
     document.getElementById("save-email").value = profile.email;
-    open(profile.destination, {
-      basis: `${profile.nationality} passport · ${VISA_LABELS[profile.visaType]}`,
-      from: "profile",
-    });
+    const basisLabel = isEu
+      ? "EU citizen · Residency registration"
+      : `${profile.nationality} passport · ${VISA_LABELS[profile.visaType]}`;
+    open(profile.destination, { basis: basisLabel, from: "profile" });
   }
 
   function fillProfileForm(profile) {
@@ -527,18 +534,29 @@
     profileForm.querySelector(`input[name=profileNationality][value="${choice}"]`).checked = true;
     nationalityOther.hidden = preset;
     nationalityOther.value = preset ? "" : profile.nationality;
-    const visa = profileForm.querySelector(`input[name=profileVisa][value="${profile.visaType}"]`);
-    if (visa) visa.checked = true;
+    const isEu = profile.nationality === "EU";
+    profileVisaGroup.hidden = isEu;
+    profileEuNote.hidden = !isEu;
+    if (!isEu) {
+      const visa = profileForm.querySelector(`input[name=profileVisa][value="${profile.visaType}"]`);
+      if (visa) visa.checked = true;
+    }
     profileEmail.value = profile.email || "";
     profileSubmit.disabled = false;
   }
 
   function updateProfileForm() {
-    const otherChosen = new FormData(profileForm).get("profileNationality") === "Other";
+    const data = new FormData(profileForm);
+    const otherChosen = data.get("profileNationality") === "Other";
+    const isEu = data.get("profileNationality") === "EU";
     nationalityOther.hidden = !otherChosen;
     nationalityOther.required = otherChosen;
+    // EU citizens don't pick a visa type — hide that group and show the note instead
+    profileVisaGroup.hidden = isEu;
+    profileEuNote.hidden = !isEu;
     const v = profileValues();
-    profileSubmit.disabled = !(v.nationality && v.destination && v.visaType && profileEmail.validity.valid && v.email);
+    const visaOk = isEu || !!v.visaType;
+    profileSubmit.disabled = !(v.nationality && v.destination && visaOk && profileEmail.validity.valid && v.email);
   }
 
   profileForm.addEventListener("input", updateProfileForm);
