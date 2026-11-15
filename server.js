@@ -427,7 +427,7 @@ You will receive a client's answers to 8 intake questions: nationality, income t
 - planA must open with "Based on your profile, you qualify for [visa]." — a verdict, not an assessment.
 - planB and planC summaries must open with one sentence: "You qualify for [program] because [specific reason tied to their income/profile]."
 - steps and details must be imperative and short: "Apply for NHR2 (IFICI) within your first year" not "You should look into registering".
-- keyInsight must feel like insider knowledge a client wouldn't find on Google — a specific trap, timing advantage, or non-obvious edge case.
+- keyInsight must feel like something a friend who'd done the move would tell you over a coffee — a specific trap, timing advantage, or non-obvious thing that catches people out. Write it in plain English: no visa category codes, no legal jargon, no acronyms without explanation. Imagine the reader is intelligent but has never moved abroad before. Max 2 sentences. Lead with the problem or surprise, not the solution.
 - weeklyActions: exactly 3 actions. The third action should always be: "Book a 30-minute call with a Portuguese immigration lawyer to confirm your route — BordersX gives you the direction, a lawyer confirms the detail." (adapt wording slightly to fit the client's specific situation).
 
 ## Output format
