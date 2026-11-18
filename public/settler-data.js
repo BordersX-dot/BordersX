@@ -20,14 +20,19 @@
 (() => {
   const CALENDLY = "https://calendly.com/kurran-bordersx/bordersx-free-strategy-call";
 
-  // TODO: replace these placeholder URLs with tracked affiliate links.
+  // Partner links — broker relationships, not affiliate programmes.
+  // For partner introductions (bank, insurance), we route via our contact page
+  // so we can manage the relationship and track referrals manually for now.
   const AFFILIATES = {
-    wise: { label: "Open a Wise account", url: "https://wi.se/bordersx" },
+    wise: { label: "Open a Wise account", url: "https://wise.com/invite/bordersx" },
     revolut: { label: "Open a Revolut account", url: "https://www.revolut.com/" },
     sim: { label: "Get an eSIM for arrival", url: "https://www.airalo.com/" },
     spotahome: { label: "Browse rentals on Spotahome", url: "https://www.spotahome.com/" },
     taxAdvisor: { label: "Get matched with a tax adviser", url: CALENDLY },
     activobank: { label: "Open an ActivoBank account", url: "https://www.activobank.pt" },
+    millenniumbcp: { label: "Get a Millennium BCP introduction", url: CALENDLY, note: "We can introduce you to our contact at Millennium BCP — open your Portuguese account before you leave the UK." },
+    insurance: { label: "Get an insurance introduction", url: CALENDLY, note: "We work with a trusted broker for health insurance in Portugal. We'll make the introduction directly." },
+    nif: { label: "Book a NIF introduction call", url: CALENDLY, note: "We'll introduce you to a trusted NIF service — no need to be in Portugal." },
   };
 
   const PHASES = [
@@ -99,7 +104,8 @@
           id: "pt-nif",
           days: -150,
           title: "Get your NIF (tax number)",
-          body: "You need a NIF before you can open a bank account, sign a lease or set up utilities. You can get one before arrival through a fiscal representative or an online NIF service.",
+          body: "You need a NIF before you can open a bank account, sign a lease or set up utilities. You can get one before arrival through a fiscal representative or an online NIF service — we can help arrange this remotely.",
+          links: ["nif"],
         },
         {
           id: "pt-bank",
@@ -107,7 +113,7 @@
           title: "Open your bank accounts",
           body: (c) =>
             `Use a multi-currency account to move money at close to the mid-market rate, and open a Portuguese account once you have your NIF${c.eu ? "." : " — the visa application requires one."} For the Portuguese account we recommend ActivoBank: digital-first, low fees, and straightforward to open as a new resident.`,
-          links: ["activobank", "wise", "revolut"],
+          links: ["activobank", "millenniumbcp", "wise", "revolut"],
           tips: [
             {
               when: (c) => c.american,
@@ -115,7 +121,7 @@
             },
             {
               when: (c) => c.british,
-              text: "Top tip: Millennium BCP has a London branch (City of London) that can open a Portuguese account before you leave the UK. This saves significant time on arrival — book an appointment before your move date.",
+              text: "Top tip: Millennium BCP has a London branch (City of London) that can open a Portuguese account before you leave the UK. We have a contact there — use the introduction link above to get a warm referral.",
             },
           ],
         },
@@ -149,7 +155,14 @@
           body: (c) =>
             c.eu
               ? "Bring your EHIC to bridge the gap until you're registered with the national health service (SNS)."
-              : "Private health insurance is required for your visa and covers you until you're registered with the SNS.",
+              : "Private health insurance is required for your visa and covers you until you're registered with the SNS. We work with a trusted broker who specialises in expat health cover in Portugal.",
+          links: ["insurance"],
+          tips: [
+            {
+              when: (c) => c.eu,
+              text: "EU citizens: you don't need private health insurance for your move, so ignore the introduction link above.",
+            },
+          ],
         },
         {
           id: "pt-docs",
