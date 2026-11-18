@@ -82,16 +82,38 @@
       keywords: ["portugal", "portuguese", "lisbon", "porto", "madeira", "algarve", "azores"],
       steps: [
         {
+          id: "pt-visa-docs",
+          days: -120,
+          when: (c) => !c.eu,
+          title: (c) => c.passive ? "Gather your D7 visa documents" : c.entrepreneur ? "Gather your D2 visa documents" : "Gather your D8 visa documents",
+          body: (c) =>
+            c.passive
+              ? "Start collecting these early — some take weeks to obtain:\n\n• Valid passport (6+ months remaining)\n• Proof of passive income: 3–6 months of bank statements showing pension, rental income or investment returns meeting the minimum threshold (currently €760/month for the main applicant, €380 per additional adult, €228 per child)\n• Portuguese bank account statement (must show a minimum balance — typically €9,120 for a single applicant)\n• Proof of accommodation: 12-month lease or property deed\n• Private health insurance valid in Portugal\n• Criminal record certificate (apostilled)\n• Birth certificate (apostilled) and marriage certificate if applicable\n• 2 recent passport photos\n• Completed visa application form"
+              : c.entrepreneur
+              ? "Start collecting these early — some take weeks to obtain:\n\n• Valid passport (6+ months remaining)\n• Business plan (Portuguese or translated into Portuguese)\n• Proof of financial means: bank statements showing sufficient funds (minimum €5,000 recommended, more if hiring staff)\n• Portuguese bank account statement or proof of investment in a Portuguese company\n• Proof of accommodation: 12-month lease or property deed\n• Private health insurance valid in Portugal\n• Criminal record certificate (apostilled)\n• If incorporating a Lda: Articles of Association, proof of company registration\n• Birth certificate (apostilled) and marriage certificate if applicable\n• 2 recent passport photos\n• Completed visa application form"
+              : "Start collecting these early — some take weeks to obtain:\n\n• Valid passport (6+ months remaining)\n• Proof of remote employment or freelance income from non-Portuguese sources: employment contract or client contracts plus 3 months of payslips or invoices, and 3 months of bank statements\n• Minimum income evidence: €3,040/month (4× the Portuguese minimum wage) — confirm current threshold with your consulate\n• Portuguese bank account statement\n• Proof of accommodation: 12-month lease or property deed\n• Private health insurance valid in Portugal\n• Criminal record certificate (apostilled)\n• Birth certificate (apostilled) and marriage certificate if applicable\n• 2 recent passport photos\n• Completed visa application form",
+          tips: [
+            {
+              when: (c) => c.british,
+              text: "UK criminal record certificates are issued by the DBS (Disclosure and Barring Service) and must be apostilled by the FCDO. Allow 4–6 weeks.",
+            },
+            {
+              when: (c) => c.american,
+              text: "US criminal record certificates come from the FBI (Identity History Summary) and must be apostilled. Allow 6–8 weeks — apply early.",
+            },
+          ],
+        },
+        {
           id: "pt-visa",
           days: -90,
           when: (c) => !c.eu,
           title: (c) => c.passive ? "Apply for your D7 (passive income) visa" : c.entrepreneur ? "Apply for your D2 (entrepreneur) visa" : "Apply for your D8 (digital nomad) visa",
           body: (c) =>
             c.passive
-              ? "Apply at the Portuguese consulate or its visa centre in your country. You'll need proof of regular passive income (pension, rental or investment), a NIF, a Portuguese bank account, accommodation, health insurance and a criminal record certificate."
+              ? "Submit your application at the Portuguese consulate or its visa centre. Processing typically takes 60 days — book your appointment as soon as your documents are ready."
               : c.entrepreneur
-              ? "Apply at the Portuguese consulate or its visa centre in your country. You'll need a business plan, proof of financial means, a NIF, a Portuguese bank account (or proof of investment in a Portuguese company), accommodation, health insurance and a criminal record certificate. If you're setting up a Lda (limited company), have your Articles of Association ready."
-              : "Apply at the Portuguese consulate or its visa centre in your country. You'll need proof of remote income from outside Portugal, a NIF, a Portuguese bank account, accommodation, health insurance and a criminal record certificate.",
+              ? "Submit your application at the Portuguese consulate or its visa centre. Processing typically takes 60 days — book your appointment as soon as your documents are ready."
+              : "Submit your application at the Portuguese consulate or its visa centre. Processing typically takes 60 days — book your appointment as soon as your documents are ready.",
         },
         {
           id: "pt-eu-docs",
