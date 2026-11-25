@@ -33,6 +33,9 @@
     millenniumbcp: { label: "Get a Millennium BCP introduction", url: CALENDLY, note: "We can introduce you to our contact at Millennium BCP — open your Portuguese account before you leave the UK." },
     insurance: { label: "Get an insurance introduction", url: CALENDLY, note: "We work with a trusted broker for health insurance in Portugal. We'll make the introduction directly." },
     nif: { label: "Book a NIF introduction call", url: CALENDLY, note: "We'll introduce you to a trusted NIF service — no need to be in Portugal." },
+    rentals: { label: "Browse long-term rentals", url: "https://www.idealista.pt/en/arrendar-casas/" },
+    buyProperty: { label: "Browse properties for sale", url: "https://www.idealista.pt/en/comprar-casas/" },
+    languageSchool: { label: "Start learning Portuguese", url: "https://www.portugueseonline.pt/" },
   };
 
   const PHASES = [
@@ -169,6 +172,32 @@
             `${c.eu ? "" : "Visa applications usually need a 12-month lease. "}A mid-term rental gives you time to view areas in person before committing to a long lease.`,
           links: ["spotahome"],
         },
+        {
+          id: "pt-rent",
+          days: -100,
+          title: "Find your long-term rental",
+          body: "Once you've chosen an area, search for a 12-month lease. Lisbon, Porto and the Algarve are the main expat hubs — each has a different price point and pace. Budget €800–1,500/month for a one-bed in Lisbon, less in Porto or inland. Ask for an Alojamento Local (AL) licence number if taking a furnished flat, and confirm utilities are not included in the rent before signing.",
+          links: ["rentals"],
+          tips: [
+            {
+              when: (c) => !c.eu,
+              text: "Your visa application requires a 12-month lease or property deed — a short-term Airbnb won't satisfy the consulate.",
+            },
+          ],
+        },
+        {
+          id: "pt-buy",
+          days: 180,
+          title: "Consider buying property in Portugal",
+          body: "Once your residence permit is confirmed and you've had six months to explore, buying becomes viable. Portugal's market is competitive in Lisbon and Porto — engage a licensed real estate agent (look for AMI licence) and a local lawyer before signing anything. Budget for IMT transfer tax (up to 8%), stamp duty (0.8%), notary and registration fees (roughly 1–2% total) on top of the purchase price.",
+          links: ["buyProperty"],
+          tips: [
+            {
+              when: (c) => c.passive,
+              text: "Golden Visa holders (investor route): property is no longer a qualifying investment since October 2023 — buying property is separate from your visa route.",
+            },
+          ],
+        },
         homeExit("pt"),
         {
           id: "pt-health-cover",
@@ -206,6 +235,19 @@
           days: 20,
           title: "Put utilities and internet in your name",
           body: "Electricity, water and internet providers will ask for your NIF and lease.",
+        },
+        {
+          id: "pt-language",
+          days: 30,
+          title: "Start learning Portuguese",
+          body: "Portuguese is not required for daily life in Lisbon or Porto, but it opens doors — with landlords, with AIMA, and in everyday situations outside the main cities. Aim for A2 within your first year. Online courses work well alongside a weekly class. After 5 years you'll need B1 for the citizenship language test, so starting early pays off.",
+          links: ["languageSchool"],
+          tips: [
+            {
+              when: () => true,
+              text: "European Portuguese (PE) differs significantly from Brazilian Portuguese — make sure your course teaches PE if you plan to stay long-term.",
+            },
+          ],
         },
         {
           id: "pt-crue",
